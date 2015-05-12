@@ -1,0 +1,15 @@
+{
+  "name": "toolbox-utils",
+  "version": "0.0.1",
+  "description": "Resources for generator-toolbox",
+  "license": "MIT",
+  "repository": "frontend/toolbox-utils",
+  "author": {
+    "url": "https://github.com/frontend"
+  },
+  "keywords": [
+    "yeoman-generator",
+    "generator-toolbox",
+    "fabricator"
+  ]
+}
