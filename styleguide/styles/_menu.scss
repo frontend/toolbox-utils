@@ -1,0 +1,88 @@
+.styleguide-menu {
+  @include border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: $menu-bg;
+  transform: translate(-100%, 0);
+  z-index: 1;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  .styleguide-menu-active & {
+    transform: translate(0, 0);
+  }
+
+  ul {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+  }
+
+  > ul {
+    margin-top: 0;
+    margin-bottom: 1em;
+
+    > li {
+      margin-top: 1em;
+    }
+  }
+
+  li {
+    list-style-type: none;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: $menu-fg;
+  }
+
+  a {
+    display: block;
+    padding: 0.33em 2em;
+    text-decoration: none;
+    font-size: 1em;
+    line-height: 1.5;
+    color: $menu-fg;
+
+    &:hover {
+      color: $accent-color;
+      text-decoration: none;
+    }
+
+    &.styleguide-active {
+      box-shadow: inset 0.25em 0 0 0 $accent-color;
+    }
+  }
+
+  .styleguide-menu-heading {
+    display: block;
+    position: relative;
+    padding-left: 1.5em;
+    font-size: 1.1em;
+    font-weight: 700;
+
+    &:after {
+      content: '\00a0';
+      display: block;
+      position: absolute;
+      right: 1.5em;
+      bottom: 0.9em;
+      width: 6px;
+      height: 6px;
+      border-right: 2px solid transparentize($menu-fg, 0.7);
+      border-bottom: 2px solid transparentize($menu-fg, 0.7);
+      transform: rotate(-45deg);
+    }
+  }
+
+  a.styleguide-menu-heading:hover { color: $accent-color; }
+
+  span.styleguide-menu-heading {
+    padding: 0.33em 1.5em;
+    &:after { transform: rotate(45deg); }
+  }
+
+}

@@ -1,0 +1,15 @@
+@mixin clearfix {
+  &:after {
+    clear: both;
+  }
+
+  &:before,
+  &:after {
+    content: ' ';
+    display: table;
+  }
+}
+
+@mixin border-box {
+  box-sizing: border-box;
+}
