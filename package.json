@@ -8,9 +8,7 @@
     "url": "https://github.com/frontend"
   },
   "keywords": [
-    "yeoman-generator",
-    "generator-toolbox",
-    "fabricator"
+    "generator-toolbox"
   ],
   "dependencies": {
     "prismjs": "^1.5.1"
