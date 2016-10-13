@@ -11,5 +11,8 @@
     "yeoman-generator",
     "generator-toolbox",
     "fabricator"
-  ]
+  ],
+  "dependencies": {
+    "prismjs": "^1.5.1"
+  }
 }
