@@ -1,6 +1,34 @@
 'use strict';
 
-require('./prism');
+var Prism = require('prismjs');
+if (
+	(typeof self === 'undefined' || !self.Prism) &&
+	(typeof global === 'undefined' || !global.Prism)
+) {
+	return;
+}
+
+var options = {};
+Prism.plugins.customClass = {
+	map: function map(cm) {
+		options.classMap = cm;
+	},
+	prefix: function prefix(string) {
+		options.prefixString = string;
+	}
+}
+
+Prism.hooks.add('wrap', function (env) {
+	if (!options.classMap && !options.prefixString) {
+		return;
+	}
+	env.classes = env.classes.map(function(c) {
+		return (options.prefixString || '') + (options.classMap[c] || c);
+	});
+});
+
+Prism.plugins.customClass.map({});
+Prism.plugins.customClass.prefix('prism-');
 
 /**
  * Global `fabricator` object

@@ -9,7 +9,7 @@ $code-green: #63a35c;
 $code-light-gray: #f7f7f7;
 $code-dark-gray: #969896;
 
-code,
+.styleguide-description code,
 code[class*='language-'],
 pre[class*='language-'] {
   text-align: left;
@@ -25,6 +25,10 @@ pre[class*='language-'] {
   letter-spacing: normal;
 }
 
+.styleguide-description code {
+  color: $code-purple;
+}
+
 // code blocks
 pre[class*='language-'] {
   overflow: auto;
@@ -34,9 +38,9 @@ pre[class*='language-'] {
   font-size: 1em;
 }
 
-p code,
-li code,
-table code {
+.styleguide-description p code,
+.styleguide-description li code,
+.styleguide-description table code {
   margin: 0;
   padding: 0.2em 0;
   border-radius: 3px;
@@ -49,7 +53,7 @@ table code {
   }
 }
 
-code,
+.styleguide-description code,
 :not(pre) > code[class*='language-'],
 pre[class*='language-'] {
   background: $code-light-gray;
@@ -63,49 +67,49 @@ pre[class*='language-'] {
 
 
 // token colors
-.token {
+.prism-token {
 
-  &.comment,
-  &.prolog,
-  &.doctype,
-  &.cdata {
+  &.prism-comment,
+  &.prism-prolog,
+  &.prism-doctype,
+  &.prism-cdata {
     color: $code-dark-gray;
   }
 
-  &.punctuation,
-  &.string,
-  &.atrule,
-  &.attr-value {
+  &.prism-punctuation,
+  &.prism-string,
+  &.prism-atrule,
+  &.prism-attr-value {
     color: $code-blue;
   }
 
-  &.property,
-  &.tag {
+  &.prism-property,
+  &.prism-tag {
     color: $code-green;
   }
 
-  &.boolean,
-  &.number {
+  &.prism-boolean,
+  &.prism-number {
     color: $code-teal;
   }
 
-  &.selector,
-  &.attr-name,
-  &.attr-value .punctuation:first-child,
-  &.keyword,
-  &.regex,
-  &.important {
+  &.prism-selector,
+  &.prism-attr-name,
+  &.prism-attr-value .punctuation:first-child,
+  &.prism-keyword,
+  &.prism-regex,
+  &.prism-important {
     color: $code-maroon;
   }
 
-  &.operator,
-  &.entity,
-  &.url,
-  .language-css &.string {
+  &.prism-operator,
+  &.prism-entity,
+  &.prism-url,
+  .language-css &.prism-string {
     color: $code-purple;
   }
 
-  &.entity {
+  &.prism-entity {
     cursor: help;
   }
 
