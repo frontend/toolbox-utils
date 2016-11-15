@@ -9,7 +9,7 @@
   font-style: normal;
 }
 
-.<%= className %>:before {
+%<%= fontName %> {
   display: inline-block;
   font-family: "<%= fontName %>";
   font-style: normal;
@@ -17,6 +17,10 @@
   line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.<%= className %>:before {
+  @extend %<%= fontName %>;
 }
 
 .<%= className %>-lg {
@@ -33,5 +37,9 @@
   text-align: center;
 }
 
-<% _.each(glyphs, function(glyph) { %>.<%= className %>-<%= glyph.name %>:before { content: "\<%= glyph.codepoint.toString(16).toUpperCase() %>" }
+// Variables with the unicode character
+<% _.each(glyphs, function(glyph) { %>$<%= className %>-<%= glyph.name %>: "\<%= glyph.codepoint.toString(16).toUpperCase() %>";
+<% }); %>
+
+<% _.each(glyphs, function(glyph) { %>.<%= className %>-<%= glyph.name %>:before { content: $<%= className %>-<%= glyph.name %>; }
 <% }); %>
