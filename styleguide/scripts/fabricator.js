@@ -298,7 +298,11 @@ fabricator.singleItemToggle = function () {
     var group = this.parentNode.parentNode.parentNode,
       type = e.currentTarget.getAttribute('data-styleguide-toggle-control');
 
-    group.querySelector('[data-styleguide-toggle=' + type + ']').classList.toggle('styleguide-item-hidden');
+    var elements = group.querySelectorAll('[data-styleguide-toggle=' + type + ']');
+    
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].classList.toggle('styleguide-item-hidden');
+    }
   };
 
   for (var i = 0; i < itemToggleSingle.length; i++) {
