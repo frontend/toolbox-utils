@@ -19,7 +19,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.<%= className %>:before {
+.<%= className %> {
   @extend %<%= fontName %>;
 }
 
