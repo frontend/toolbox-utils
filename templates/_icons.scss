@@ -38,11 +38,11 @@
 }
 
 // transform the icon
-.<%= className %>-flip-horizontal:before { transform: scaleX(-1); }
-.<%= className %>-flip-vertical:before { transform: scaleY(-1); }
-.<%= className %>-rotate-90deg:before { transform: rotate(90deg); }
-.<%= className %>-rotate-180deg:before { transform: rotate(180deg); }
-.<%= className %>-rotate-270deg:before { transform: rotate(270deg); }
+.<%= className %>-flip-horizontal { transform: scaleX(-1); }
+.<%= className %>-flip-vertical { transform: scaleY(-1); }
+.<%= className %>-rotate-90deg { transform: rotate(90deg); }
+.<%= className %>-rotate-180deg { transform: rotate(180deg); }
+.<%= className %>-rotate-270deg { transform: rotate(270deg); }
 
 // Variables with the unicode character
 <% _.each(glyphs, function(glyph) { %>$<%= className %>-<%= glyph.name %>: "\<%= glyph.codepoint.toString(16).toUpperCase() %>";
