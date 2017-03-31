@@ -28,7 +28,6 @@ body {
 
 .styleguide-container {
   @include clearfix;
-  @include border-box;
 
   position: relative;
   padding: 0 2em;
@@ -46,14 +45,21 @@ body {
 }
 
 .styleguide-header-container {
+  display: flex;
+  align-items: center;
   margin-left: -2em;
   margin-right: -2em;
-  margin-bottom: 2em;
-  padding: 0 2em 2em;
-  background: $accent-color;
+  margin-bottom: 1em;
+  padding: 2em;
+  background: $menu-bg;
   color: $heading-color;
 
-  svg use { fill: $heading-color; }
+  h1 { margin-bottom: 0; }
+
+  svg {
+    use { fill: $heading-color; }
+    &:hover use { fill: $accent-color; }
+  }
 }
 
 .styleguide-page-container {

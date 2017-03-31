@@ -1,6 +1,5 @@
 .styleguide-controls {
   @include clearfix;
-  @include border-box;
   background: darken($menu-bg, 6);
 
   .styleguide-control {
@@ -20,11 +19,11 @@
       vertical-align: middle;
       use { fill: $menu-fg; }
     }
+    &:hover svg use { fill: $accent-color; }
   }
 }
 
 .styleguide-control {
-  @include border-box;
   display: inline-block;
   cursor: pointer;
   margin-left: 0.66em;
@@ -44,8 +43,7 @@
 }
 
 .styleguide-control-bar {
-  @include clearfix;
-  padding: 1em 0;
+  margin-right: 0.5em;
 }
 
 .styleguide-menu-toggle {

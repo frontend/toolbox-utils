@@ -2,7 +2,6 @@
   @include clearfix;
   margin-top: 3em;
   margin-bottom: 3em;
-  padding-bottom: 3em;
 
   &:last-child {
     margin-bottom: 0;
@@ -14,8 +13,7 @@
   }
 
   & > & {
-    margin-bottom: 1.5em;
-    padding-bottom: 1.5em;
+    margin-bottom: 2.5em;
     border-bottom: 0;
 
     &:first-of-type {
@@ -29,17 +27,26 @@
   }
 }
 
-.styleguide-item-code {
-  margin-top: 2em;
+.styleguide-description {
+  padding: 1em;
+  background-color: $menu-bg;
+  border: 1px solid darken($menu-bg, 6%);
+  border-bottom: none;
+  border-top-right-radius: 0.2em;
+  border-top-left-radius: 0.2em;
+}
+
+.styleguide-item-notes {
+  > :last-child {
+    margin-bottom: 0;
+  }
 }
 
 .styleguide-item-preview {
   @include clearfix;
   position: relative;
-  margin-top: 2em;
   padding: 1em;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 0.2em;
+  border: 1px solid darken($menu-bg, 6%);
 }
 
 .styleguide-item-border-bottom {
@@ -48,7 +55,7 @@
 
 .styleguide-item-heading-group {
   @include clearfix;
-  margin-bottom: 2em;
+  margin-bottom: 0.5em;
   vertical-align: middle;
 }
 

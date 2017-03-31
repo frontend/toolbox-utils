@@ -32,10 +32,13 @@ pre[class*='language-'] {
 // code blocks
 pre[class*='language-'] {
   overflow: auto;
-  margin: 1em 0;
+  margin-bottom: 0;
   padding: 1.2em;
-  border-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
   font-size: 1em;
+  border: 1px solid darken($menu-bg, 6%);
+  border-top: none;
 }
 
 .styleguide-description p code,

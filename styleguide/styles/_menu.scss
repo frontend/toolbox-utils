@@ -1,11 +1,11 @@
 .styleguide-menu {
-  @include border-box;
   position: fixed;
   top: 0;
   left: 0;
   width: 250px;
   height: 100%;
   background-color: $menu-bg;
+  border-right: 1px solid darken($menu-bg, 6%);
   transform: translate(-100%, 0);
   z-index: 1;
 
@@ -25,10 +25,10 @@
 
   > ul {
     margin-top: 0;
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
 
     > li {
-      margin-top: 1em;
+      margin-top: 0.5em;
     }
   }
 
@@ -41,7 +41,7 @@
 
   a {
     display: block;
-    padding: 0.33em 2em;
+    padding: 0.1em 2em;
     text-decoration: none;
     font-size: 1em;
     line-height: 1.5;
