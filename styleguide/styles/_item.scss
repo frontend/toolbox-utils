@@ -56,7 +56,23 @@
 .styleguide-item-heading-group {
   @include clearfix;
   margin-bottom: 0.5em;
+  margin-left: -2em;
+  padding-left: 2em;
   vertical-align: middle;
+
+  .anchor {
+    display: none;
+    position: absolute;
+    left: 0.6em;
+    font-size: 1.2em;
+  }
+
+  &:hover {
+    .anchor {
+      display: inline-block;
+      text-decoration: none;
+    }
+  }
 }
 
 .styleguide-item-heading {
