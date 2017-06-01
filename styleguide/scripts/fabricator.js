@@ -299,7 +299,7 @@ fabricator.singleItemToggle = function () {
       type = e.currentTarget.getAttribute('data-styleguide-toggle-control');
 
     var elements = group.querySelectorAll('[data-styleguide-toggle=' + type + ']');
-    
+
     for (var i = 0; i < elements.length; i++) {
       elements[i].classList.toggle('styleguide-item-hidden');
     }
@@ -344,6 +344,36 @@ fabricator.setInitialMenuState = function () {
 
   // root element
   var root = document.querySelector('html');
+
+  var mq = window.matchMedia(fabricator.options.mq);
+
+  // if small screen
+  var mediaChangeHandler = function (list) {
+    if (!list.matches) {
+      root.classList.remove('styleguide-menu-active');
+    } else {
+      if (fabricator.getOptions().menu) {
+        root.classList.add('styleguide-menu-active');
+      } else {
+        root.classList.remove('styleguide-menu-active');
+      }
+    }
+  };
+
+  mq.addListener(mediaChangeHandler);
+  mediaChangeHandler(mq);
+
+  return this;
+
+};
+
+/**
+ * Open/Close menu based on session var.
+ * Also attach a media query listener to close the menu when resizing to smaller screen.
+ */
+fabricator.menuCollapse = function () {
+
+  var toggle = document.querySelector('.styleguide-collapse');
 
   var mq = window.matchMedia(fabricator.options.mq);
 
