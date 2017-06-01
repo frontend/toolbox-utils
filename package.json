@@ -1,15 +1,12 @@
 {
   "name": "toolbox-utils",
-  "version": "0.0.9",
+  "version": "1.0.0",
   "description": "Resources for generator-toolbox",
   "license": "MIT",
   "repository": "frontend/toolbox-utils",
   "author": {
     "url": "https://github.com/frontend"
   },
-  "keywords": [
-    "generator-toolbox"
-  ],
   "dependencies": {
     "prismjs": "^1.5.1"
   }
