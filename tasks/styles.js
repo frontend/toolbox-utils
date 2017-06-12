@@ -1,8 +1,8 @@
-import gulp from 'gulp';
-import gulpLoadPlugins from 'gulp-load-plugins';
+const gulp = require('gulp');
+const gulpLoadPlugins = require('gulp-load-plugins');
 
-import config from '../toolbox.json';
-import errorAlert from './helpers';
+const config = require('../toolbox.json');
+const errorAlert = require('./helpers');
 
 const $ = gulpLoadPlugins();
 
