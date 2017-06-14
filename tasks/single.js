@@ -1,8 +1,10 @@
-import gulp from 'gulp';
-import config from '../toolbox.json';
-import merge from 'merge-stream';
+const gulp = require('gulp');
+const yargs = require('yargs');
+const merge = require('merge-stream');
 
-import loadPlugins from 'gulp-load-plugins';
+const config = require('./config');
+
+const loadPlugins = require('gulp-load-plugins');
 const $ = loadPlugins();
 
 /**
@@ -13,9 +15,9 @@ const single = (done) => {
   if (!config.singles || !config.singles[Object.keys(config.singles)[0]].src) return done();
 
   return merge(config.singles.map((item) => {
-    return gulp.src(item.src)
-      .pipe(gulp.dest(item.dest));
+    return gulp.src(item.src, {cwd: config.project})
+      .pipe(gulp.dest(item.dest, {cwd: config.project}));
   }));
 };
 
-export default single;
+module.exports = single;

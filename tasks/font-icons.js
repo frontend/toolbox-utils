@@ -1,7 +1,9 @@
-import gulp from 'gulp';
-import config from '../toolbox.json';
+const gulp = require('gulp');
 
-import loadPlugins from 'gulp-load-plugins';
+const yargs = require('yargs');
+const config = require(`${yargs.argv.project}/toolbox.json`);
+
+const loadPlugins = require('gulp-load-plugins');
 const $ = loadPlugins();
 
 const name = config.iconsFontName;
@@ -10,7 +12,7 @@ const name = config.iconsFontName;
  * Build icons font and stylesheets
  */
 const icons = () => {
-  return gulp.src(`${config.src}icons/**/*.svg`)
+  return gulp.src(`${yargs.argv.project}/${config.src}icons/**/*.svg`)
     .pipe($.iconfont({
       fontName: name,
       appendCodepoints: true,
@@ -28,9 +30,9 @@ const icons = () => {
           className: name,
         }))
         .pipe($.rename(`${name}.scss`))
-        .pipe(gulp.dest(`${config.src}fonts`));
+        .pipe(gulp.dest(`${yargs.argv.project}/${config.src}fonts`));
     })
-    .pipe(gulp.dest(`${config.dest}fonts`));
+    .pipe(gulp.dest(`${yargs.argv.project}/${config.dest}fonts`));
 };
 
 export default icons;

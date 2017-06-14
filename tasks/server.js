@@ -1,16 +1,16 @@
-import gulp from 'gulp';
-import webpack from 'webpack';
-import yargs from 'yargs';
-import config from '../toolbox.json';
-import webpackSettings from '../webpack.dev.config';
-import browserSync from 'browser-sync';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
+const gulp = require('gulp');
+const webpack = require('webpack');
+const yargs = require('yargs');
+const config = require(`${yargs.argv.project}/toolbox.json`);
+const webpackSettings = require('../webpack.dev.config');
+const browserSync = require('browser-sync');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 
-import { img } from './images';
-import { styles } from './styles';
-import { scripts } from './scripts';
-import { icons } from './icons';
+const img = require('./images');
+const styles = require('./styles');
+const scripts = require('./scripts');
+const icons = require('./icons');
 
 const bundler = webpack(webpackSettings);
 
@@ -38,10 +38,10 @@ const inprod = done => done();
 /**
  * Serve
  */
-export const serve = () => {
+const serve = () => {
   browserSync({
     server: {
-      baseDir: [config.app.basedir],
+      baseDir: [`${yargs.argv.project}/${config.dest}`],
       middleware: [
         webpackDevMiddleware(bundler, {
           publicPath: webpackSettings.output.publicPath,
@@ -68,48 +68,39 @@ export const serve = () => {
   });
 
   gulp.watch([
-    `${config.assets}sass/**/*.scss`
+    `${pathTo(config.src)}**/*.scss`
   ], gulp.series(
     styles,
-    yargs.argv.production ? inprod : require('./metalsmith').metalsmithAssets,
-    inject));
-
-  gulp.watch([
-    `${config.assets}sass/styleguide.scss`,
-    `${config.assets}sass/styleguide-variables.scss`
-  ], gulp.series(
-    yargs.argv.production ? inprod : require('./metalsmith').metalsmithStyles,
     inject
   ));
 
   gulp.watch([
-    `${config.assets}img/**/*`,
-    `${config.assets}svg/**/*`
+    `${pathTo(config.src)}img/**/*`,
+    `${pathTo(config.src)}svg/**/*.svg`,
+    `${pathTo(config.src)}favicons/**/*`,
+    `${pathTo(config.src)}fonts/**/*`,
   ], gulp.series(
-    img,
-    yargs.argv.production ? inprod : require('./metalsmith').metalsmith,
+    copyAssets,
     reload
   ));
 
   gulp.watch([
-    `${config.assets}icons/**/*`
+    `${pathTo(config.src)}icons/**/*.svg`
   ], gulp.series(
     icons,
-    yargs.argv.production ? inprod : require('./metalsmith').metalsmith,
     reload
   ));
 
   gulp.watch([
-    `${config.assets}js/**/*.js`
+    `${pathTo(config.src)}**/*.js`
   ], gulp.series(scripts));
 
   gulp.watch([
-    `${config.assets}components/**/*.{html,hbs,md,swig}`,
-    `${config.assets}templates/**/*.{html,hbs,md,swig}`,
-    `${config.assets}docs/**/*.md`,
-    `${config.assets}data/**/*.{json,yml}`
+    `${pathTo(config.src)}**/*.{json,md,twig,yml}`,
+    pathTo('docs/**/*.md'),
   ], gulp.series(
-    yargs.argv.production ? inprod : require('./metalsmith').metalsmithDocs,
     reload
   ));
 };
+
+module.exports.serve = serve;

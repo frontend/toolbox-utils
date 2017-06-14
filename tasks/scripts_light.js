@@ -1,8 +1,9 @@
-import gulp from 'gulp';
-import gulpLoadPlugins from 'gulp-load-plugins';
+const gulp = require('gulp');
+const gulpLoadPlugins = require('gulp-load-plugins');
 
-import config from '../toolbox.json';
-import errorAlert from './helpers';
+const yargs = require('yargs');
+const config = require(`${yargs.argv.project}/toolbox.json`);
+const errorAlert = require('./helpers');
 
 const $ = gulpLoadPlugins();
 
@@ -21,21 +22,21 @@ const dest = {
 /**
  * Scripts
  */
-export const scripts = () => {
-  return gulp.src(src.base)
+const scripts = () => {
+  return gulp.src(src.base, {cwd: yargs.argv.project})
     .pipe($.sourcemaps.init())
     .pipe($.plumber({ errorHandler: errorAlert }))
-    .pipe($.babel())
+    .pipe($.babel({sourceRoot: yargs.argv.project}))
     .pipe($.concat('bundle.js'))
     .pipe($.sourcemaps.write('./'))
-    .pipe(gulp.dest(dest.scripts));
+    .pipe(gulp.dest(dest.scripts, {cwd: yargs.argv.project}));
 };
+module.exports.scripts = scripts;
 
-export const scriptsLint = () => {
-  return gulp.src(src.scripts)
+const scriptsLint = () => {
+  return gulp.src(src.scripts, {cwd: yargs.argv.project})
     .pipe($.plumber({ errorHandler: errorAlert }))
     .pipe($.eslint())
     .pipe($.eslint.format());
 };
-
-export default scripts;
+module.exports.scriptsLint = scriptsLint;

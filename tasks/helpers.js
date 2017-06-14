@@ -1,5 +1,5 @@
-import yargs from 'yargs';
-import gulpLoadPlugins from 'gulp-load-plugins';
+const yargs = require('yargs');
+const gulpLoadPlugins = require('gulp-load-plugins');
 
 const $ = gulpLoadPlugins();
 
@@ -10,5 +10,11 @@ function errorAlert(error) {
   }
   this.emit('end');
 }
+module.exports.errorAlert = errorAlert;
 
-export default errorAlert;
+function pathTo(relativePath) {
+  return `${yargs.argv.project}/${relativePath}`;
+}
+module.exports.pathTo = pathTo;
+
+module.exports.projectPath = yargs.argv.project;

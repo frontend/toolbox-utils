@@ -1,8 +1,8 @@
 const gulp = require('gulp');
 const gulpLoadPlugins = require('gulp-load-plugins');
 
-const config = require('../toolbox.json');
-const errorAlert = require('./helpers');
+const config = require('./config');
+const {errorAlert} = require('./helpers');
 
 const $ = gulpLoadPlugins();
 
@@ -26,8 +26,8 @@ const dest = {
  *   in package.json.
  * - CSSNano minifies the output.
  */
-export const styles = () => {
-  return gulp.src(src.mainScss)
+const stylesBuild = () => {
+  return gulp.src(src.mainScss, {cwd: config.project})
     .pipe($.plumber({ errorHandler: errorAlert }))
     .pipe($.sourcemaps.init())
     .pipe($.sass.sync().on('error', $.sass.logError))
@@ -36,11 +36,11 @@ export const styles = () => {
       require('cssnano'),
     ]))
     .pipe($.sourcemaps.write('./'))
-    .pipe(gulp.dest(dest.styles));
+    .pipe(gulp.dest(dest.styles, {cwd: config.project}));
 };
 
-export const stylesLint = () => {
-  return gulp.src(src.scss)
+const stylesLint = () => {
+  return gulp.src(src.scss, {cwd: config.project})
     .pipe($.plumber({ errorHandler: errorAlert }))
     .pipe($.postcss(
       [
@@ -53,4 +53,5 @@ export const stylesLint = () => {
     ));
 };
 
-export default styles;
+const styles = gulp.parallel(stylesLint, stylesBuild)
+module.exports = styles;
