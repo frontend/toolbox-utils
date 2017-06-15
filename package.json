@@ -9,13 +9,14 @@
   "bin": {
     "toolbox": "./index.js"
   },
-  "scripts": {
-    "build": "gulp build",
-    "start": "gulp"
-  },
   "repository": "frontend/toolbox-utils",
   "author": {
     "url": "https://github.com/frontend"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
   },
   "dependencies": {
     "autoprefixer": "^7.1.1",
@@ -25,6 +26,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.24.1",
+    "browser-sync": "^2.18.12",
     "browserify": "^14.4.0",
     "child_process": "^1.0.2",
     "cross-spawn": "^5.1.0",
@@ -35,7 +37,6 @@
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.0.1",
     "gulp": "github:gulpjs/gulp#4.0",
-    "gulp-cheerio": "^0.6.2",
     "gulp-concat": "^2.6.1",
     "gulp-eslint": "^4.0.0",
     "gulp-load-plugins": "^1.5.0",
@@ -43,6 +44,7 @@
     "gulp-plumber": "^1.1.0",
     "gulp-postcss": "^7.0.0",
     "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
     "gulp-sass": "^3.1.0",
     "gulp-size": "^2.1.0",
     "gulp-sourcemaps": "^2.6.0",
@@ -57,6 +59,9 @@
     "stylelint-config-standard": "^16.0.0",
     "stylelint-order": "^0.5.0",
     "webpack": "^2.6.1",
+    "webpack-dev-middleware": "^1.10.2",
+    "webpack-hot-middleware": "^2.18.0",
+    "webpack-module-hot-accept": "^1.0.5",
     "yargs": "^8.0.1"
   }
 }

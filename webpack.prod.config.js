@@ -2,17 +2,16 @@
 
 const webpack = require('webpack');
 const path    = require('path');
-const yargs = require('yargs');
-const config = require(`${yargs.argv.project}/toolbox.json`);
+const config = require('./tasks/config');
 
 const localModule = (name) => path.resolve(__dirname, `node_modules/${name}`);
 
 module.exports = {
   entry: {
-    app: `${yargs.argv.project}/${config.src}components/base.js`
+    app: `${config.project}/${config.src}components/base.js`
   },
   output: {
-    path: `${yargs.argv.project}/${config.dest}js`,
+    path: `${config.project}/${config.dest}js`,
     filename: '[name].bundle.js'
   },
   module: {
@@ -37,7 +36,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx'],
     modules: [
-      path.resolve(`${yargs.argv.project}/${config.src}components`),
+      path.resolve(`${config.project}/${config.src}components`),
       path.resolve(__dirname, 'node_modules')
     ]
   },

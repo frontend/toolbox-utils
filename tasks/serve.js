@@ -1,13 +1,12 @@
 const gulp = require('gulp');
 const webpack = require('webpack');
-const yargs = require('yargs');
-const config = require(`${yargs.argv.project}/toolbox.json`);
+const config = require('./config');
+const {pathTo} = require('./helpers');
 const webpackSettings = require('../webpack.dev.config');
 const browserSync = require('browser-sync');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
-const img = require('./images');
 const styles = require('./styles');
 const scripts = require('./scripts');
 const icons = require('./icons');
@@ -18,7 +17,7 @@ const bundler = webpack(webpackSettings);
  * Hot css injection
  */
 const inject = () => {
-  return gulp.src([`${config.metalsmith.dist}/build/**/*.css`])
+  return gulp.src([`${config.dest}/build/**/*.css`], {cwd: config.project})
     .pipe(browserSync.stream({match: '**/*.css'}));
 };
 
@@ -41,7 +40,7 @@ const inprod = done => done();
 const serve = () => {
   browserSync({
     server: {
-      baseDir: [`${yargs.argv.project}/${config.dest}`],
+      baseDir: [`${config.project}/${config.dest}`],
       middleware: [
         webpackDevMiddleware(bundler, {
           publicPath: webpackSettings.output.publicPath,
@@ -80,7 +79,7 @@ const serve = () => {
     `${pathTo(config.src)}favicons/**/*`,
     `${pathTo(config.src)}fonts/**/*`,
   ], gulp.series(
-    copyAssets,
+    'copy-assets',
     reload
   ));
 
@@ -103,4 +102,4 @@ const serve = () => {
   ));
 };
 
-module.exports.serve = serve;
+module.exports = serve;

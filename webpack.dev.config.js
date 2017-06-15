@@ -2,20 +2,20 @@
 
 const webpack = require('webpack');
 const path    = require('path');
-const yargs = require('yargs');
-const config = require(`${yargs.argv.project}/toolbox.json`);
+const config = require('./tasks/config');
+
+const localModule = (name) => path.resolve(__dirname, `node_modules/${name}`);
 
 module.exports = {
   entry: {
     app: [
       'webpack/hot/dev-server',
       'webpack-hot-middleware/client',
-      `${yargs.argv.project}/${config.src}components/base.js`
-    ],
-    vendors: []
+      `${config.project}/${config.src}components/base.js`
+    ]
   },
   output: {
-    path: `${yargs.argv.project}/${config.dest}js`,
+    path: `${config.project}/${config.dest}js`,
     filename: '[name].bundle.js'
   },
   module: {
@@ -24,7 +24,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
         loaders: [
-          'babel?presets[]=es2015,plugins[]=transform-object-rest-spread,plugins[]=transform-es2015-spread',
+          `babel-loader?presets[]=${localModule('babel-preset-es2015')},plugins[]=${localModule('babel-plugin-transform-object-rest-spread')},plugins[]=${localModule('babel-plugin-transform-es2015-spread')}`,
           'webpack-module-hot-accept'
         ]
       },
@@ -35,10 +35,10 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
     modules: [
-      path.resolve(`${yargs.argv.project}/${config.src}components`),
-      'node_modules'
+      path.resolve(`${config.project}/${config.src}components`),
+      path.resolve(__dirname, 'node_modules')
     ]
   },
   plugins: [
@@ -48,7 +48,6 @@ module.exports = {
       filename: 'vendors.bundle.js'
     }),
     // new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.NoErrorsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
   ]
 };

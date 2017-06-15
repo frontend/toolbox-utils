@@ -10,6 +10,8 @@ const scripts = require('./tasks/scripts');
 const vendors = require('./tasks/vendors');
 const single = require('./tasks/single');
 const icons = require('./tasks/icons');
+const serve = require('./tasks/serve');
+const prepare = require('./tasks/prepare');
 
 const config = require('./tasks/config');
 
@@ -19,7 +21,6 @@ const config = require('./tasks/config');
  * Removes the build directory. Avoids issues with deleted files.
  */
 const clean = () => del([config.project + config.dest], {force: true});
-gulp.task('clean', clean);
 
 /**
  * Config
@@ -47,12 +48,11 @@ const copyAssets = () => {
       .pipe(gulp.dest(config.dest + item.dest, {cwd: config.project}));
   }));
 };
-gulp.task('copy-assets', copyAssets);
 
 /**
  * Gulp Tasks
  */
-gulp.task('build', gulp.series(
+const build = gulp.series(
   clean,
   gulp.parallel(
     styles,
@@ -61,16 +61,18 @@ gulp.task('build', gulp.series(
     vendors,
     single,
     icons,
+    prepare,
   ),
-));
+);
 
+gulp.task('serve', gulp.series(serve));
+gulp.task('prepare', gulp.series(prepare));
+gulp.task('build', build);
+gulp.task('clean', clean);
+gulp.task('copy-assets', copyAssets);
 gulp.task('styles', styles);
 gulp.task('scripts', scripts);
 gulp.task('vendors', vendors);
 gulp.task('icons', icons);
 gulp.task('single', gulp.series(single));
-
-gulp.task('serve', function(done){
-  console.log('it works');
-  done();
-});
+gulp.task('default', build);
