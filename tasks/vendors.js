@@ -26,7 +26,7 @@ const jsVendors = (done) => {
     return gulp.src(config.vendors.js, {cwd: config.project})
       .pipe($.concat('vendors.min.js'))
       .pipe($.size({title: 'JS VENDORS', showFiles: true}))
-      .pipe(gulp.dest(`${config.dest}js`), {cwd: config.project});
+      .pipe(gulp.dest(`${config.dest}js`, {cwd: config.project}));
   }
   return done();
 };

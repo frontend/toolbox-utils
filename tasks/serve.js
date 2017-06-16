@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const config = require('./config');
 const {pathTo} = require('./helpers');
 const webpackSettings = require('../webpack.dev.config');
-const browserSync = require('browser-sync');
+const browserSync = require('browser-sync').create();
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
@@ -17,7 +17,7 @@ const bundler = webpack(webpackSettings);
  * Hot css injection
  */
 const inject = () => {
-  return gulp.src([`${config.dest}/build/**/*.css`], {cwd: config.project})
+  return gulp.src([`${config.dest}**/*.css`], {cwd: config.project})
     .pipe(browserSync.stream({match: '**/*.css'}));
 };
 
@@ -38,7 +38,7 @@ const inprod = done => done();
  * Serve
  */
 const serve = () => {
-  browserSync({
+  browserSync.init({
     server: {
       baseDir: [`${config.project}/${config.dest}`],
       middleware: [
@@ -69,7 +69,12 @@ const serve = () => {
   gulp.watch([
     `${pathTo(config.src)}**/*.scss`
   ], gulp.series(
-    styles,
+    styles
+  ));
+
+  gulp.watch([
+    `${pathTo(config.dest)}**/*.css`
+  ], gulp.series(
     inject
   ));
 
@@ -78,6 +83,8 @@ const serve = () => {
     `${pathTo(config.src)}svg/**/*.svg`,
     `${pathTo(config.src)}favicons/**/*`,
     `${pathTo(config.src)}fonts/**/*`,
+    `${pathTo(config.src)}**/*.{json,md,twig,yml}`,
+    pathTo('docs/**/*.md')
   ], gulp.series(
     'copy-assets',
     reload
@@ -92,13 +99,8 @@ const serve = () => {
 
   gulp.watch([
     `${pathTo(config.src)}**/*.js`
-  ], gulp.series(scripts));
-
-  gulp.watch([
-    `${pathTo(config.src)}**/*.{json,md,twig,yml}`,
-    pathTo('docs/**/*.md'),
   ], gulp.series(
-    reload
+    scripts
   ));
 };
 

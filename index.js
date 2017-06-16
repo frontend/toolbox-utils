@@ -3,9 +3,10 @@
 'use strict';
 
 const spawn = require('cross-spawn');
+const yargs = require('yargs');
 
 const script = process.argv[2];
-const args = process.argv[3];
+const args = process.argv[3] ? '--' + process.argv[3] : process.argv[3];
 
 let env = script === 'build' ? '--production' : '--dev';
 

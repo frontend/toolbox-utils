@@ -4,6 +4,7 @@ const gulp = require('gulp');
 
 const del = require('del');
 const merge = require('merge-stream');
+const yargs = require('yargs');
 
 const styles = require('./tasks/styles');
 const scripts = require('./tasks/scripts');
@@ -20,12 +21,12 @@ const config = require('./tasks/config');
  *
  * Removes the build directory. Avoids issues with deleted files.
  */
-const clean = () => del([config.project + config.dest], {force: true});
+const clean = () => del([`${config.project}/${config.dest}`], {force: true});
 
 /**
  * Config
  */
-const copyPaths = [{
+let copyPaths = [{
   src: 'images/**/*',
   dest: '/images',
 }, {
@@ -39,10 +40,19 @@ const copyPaths = [{
   dest: '/fonts',
 }];
 
+const copyPathsDev = [{
+  src: 'components/**/*',
+  dest: '/components',
+}];
+
 /**
  * Copy stuff
  */
 const copyAssets = () => {
+  if (yargs.argv.dev || yargs.argv.styleguide) {
+    copyPaths.push(...copyPathsDev);
+  }
+
   return merge(copyPaths.map((item) => {
     return gulp.src(config.src + item.src, {cwd: config.project})
       .pipe(gulp.dest(config.dest + item.dest, {cwd: config.project}));
@@ -65,7 +75,7 @@ const build = gulp.series(
   ),
 );
 
-gulp.task('serve', gulp.series(serve));
+gulp.task('serve', gulp.series(build, serve));
 gulp.task('prepare', gulp.series(prepare));
 gulp.task('build', build);
 gulp.task('clean', clean);
