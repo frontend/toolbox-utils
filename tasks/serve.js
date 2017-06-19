@@ -86,6 +86,7 @@ const serve = () => {
     `${pathTo(config.src)}**/*.{json,md,twig,yml}`,
     pathTo('docs/**/*.md')
   ], gulp.series(
+    'prepare',
     'copy-assets',
     reload
   ));

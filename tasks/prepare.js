@@ -7,18 +7,18 @@ const yargs = require('yargs');
 
 const rawgit = 'https://rawgit.com/frontend/toolbox-reader/master/build';
 const dirs = ['atoms', 'molecules', 'organisms', 'pages'];
-const components = [];
 
 const prepare = async (done) => {
 
+  const components = [];
   const toolboxConfig = await fetch(`${rawgit}/asset-manifest.json`)
     .then(function(res) {
       return res.json();
-    }); 
+    });
 
   dirs.forEach((dir) => {
     let files = fs.readdirSync(`${config.project}/${config.src}components/${dir}`);
-    
+
     // ignore .gitkeep
     const gitKeepIndex = files.indexOf('.gitkeep');
     if (gitKeepIndex > -1) {
@@ -27,7 +27,7 @@ const prepare = async (done) => {
 
     files.forEach(file => components.push(`./components/${dir}/${file}`));
   });
-  
+
   return gulp.src('./templates/index.html')
     .pipe($.replace('/* SOURCES */', `"${components.join('","')}"`))
     .pipe($.cheerio(($, file) => {

@@ -37,7 +37,8 @@ module.exports = {
     extensions: ['.js', '.jsx'],
     modules: [
       path.resolve(`${config.project}/${config.src}components`),
-      path.resolve(__dirname, 'node_modules')
+      path.resolve(__dirname, 'node_modules'),
+      'node_modules'
     ]
   },
   resolveLoader: {
