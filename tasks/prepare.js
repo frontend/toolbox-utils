@@ -28,12 +28,15 @@ const prepare = async (done) => {
     files.forEach(file => components.push(`./components/${dir}/${file}`));
   });
 
+  const data = fs.readFileSync(`${config.project}/${config.src}config/data.json`).toString();
+
   return gulp.src('./templates/index.html')
-    .pipe($.replace('/* SOURCES */', `"${components.join('","')}"`))
+    .pipe($.replace('[/* SOURCES */]', JSON.stringify(components)))
+    .pipe($.replace('{/* DATA */}', data))
     .pipe($.cheerio(($, file) => {
       $(`  <link rel="stylesheet" href="${rawgit}/${toolboxConfig['main.css']}">\n`).appendTo('head');
 
-      if (!yargs.argv.dev || yargs.argv.styleguide) {
+      if (!yargs.argv.dev) {
         $(`  <script src="../js/vendors.bundle.js"></script>\n`).appendTo('body');
         $(`  <script src="../js/app.bundle.js"></script>\n`).appendTo('body');
       }

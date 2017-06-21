@@ -24,8 +24,10 @@ module.exports = {
         loaders: 'babel-loader',
         query: {
           presets: ['babel-preset-es2015'],
-          plugins: ['babel-plugin-transform-es2015-spread',
-            'babel-plugin-transform-object-rest-spread']
+          plugins: [
+            'babel-plugin-transform-es2015-spread',
+            'babel-plugin-transform-object-rest-spread'
+          ]
         }
       },
       {
