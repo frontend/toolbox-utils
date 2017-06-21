@@ -41,7 +41,7 @@ let copyPaths = [{
 }];
 
 const copyPathsDev = [{
-  src: 'components/**/*',
+  src: 'components/**/!(*.scss)',
   dest: '/components',
 }];
 
