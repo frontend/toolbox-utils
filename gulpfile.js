@@ -60,6 +60,16 @@ const copyAssets = () => {
 };
 
 /**
+ * Prepare styleguide if needed
+ */
+const prepareStyleguide = (done) => {
+  if (yargs.argv.dev || yargs.argv.styleguide) {
+    prepare();
+  }
+  done();
+}
+
+/**
  * Gulp Tasks
  */
 const build = gulp.series(
@@ -71,7 +81,7 @@ const build = gulp.series(
     vendors,
     single,
     icons,
-    prepare,
+    prepareStyleguide,
   ),
 );
 

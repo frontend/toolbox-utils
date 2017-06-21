@@ -33,7 +33,7 @@ const prepare = async (done) => {
     .pipe($.cheerio(($, file) => {
       $(`  <link rel="stylesheet" href="${rawgit}/${toolboxConfig['main.css']}">\n`).appendTo('head');
 
-      if (!yargs.argv.dev || yargs.argv.styleguide) {
+      if (!yargs.argv.dev) {
         $(`  <script src="../js/vendors.bundle.js"></script>\n`).appendTo('body');
         $(`  <script src="../js/app.bundle.js"></script>\n`).appendTo('body');
       }
