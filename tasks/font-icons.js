@@ -11,7 +11,7 @@ const name = config.iconsFontName;
 /*
  * Build icons font and stylesheets
  */
-const icons = () => {
+const fonticons = () => {
   return gulp.src(`${yargs.argv.project}/${config.src}icons/**/*.svg`)
     .pipe($.iconfont({
       fontName: name,
