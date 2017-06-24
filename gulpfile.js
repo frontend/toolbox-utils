@@ -11,6 +11,7 @@ const scripts = require('./tasks/scripts');
 const vendors = require('./tasks/vendors');
 const single = require('./tasks/single');
 const icons = require('./tasks/icons');
+const fonticons = require('./tasks/font-icons');
 const serve = require('./tasks/serve');
 const prepare = require('./tasks/prepare');
 
@@ -94,5 +95,6 @@ gulp.task('styles', styles);
 gulp.task('scripts', scripts);
 gulp.task('vendors', vendors);
 gulp.task('icons', icons);
+gulp.task('fonticons', fonticons);
 gulp.task('single', gulp.series(single));
 gulp.task('default', build);

@@ -20,7 +20,7 @@ const icons = () => {
       fontHeight: 1001,
     }))
     .on('glyphs', (glyphs) => {
-      gulp.src('node_modules/toolbox-utils/templates/_icons.scss')
+      gulp.src('templates/_icons.scss')
         .pipe($.consolidate('lodash', {
           glyphs: glyphs.map((glyph) => {
             return { name: glyph.name, codepoint: glyph.unicode[0].charCodeAt(0) };
@@ -35,4 +35,4 @@ const icons = () => {
     .pipe(gulp.dest(`${yargs.argv.project}/${config.dest}fonts`));
 };
 
-export default icons;
+module.exports = fonticons;
