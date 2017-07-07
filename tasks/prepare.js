@@ -39,7 +39,11 @@ const prepare = async (done) => {
       if (!yargs.argv.dev) {
         $(`  <script src="../js/vendors.bundle.js"></script>\n`).appendTo('body');
         $(`  <script src="../js/app.bundle.js"></script>\n`).appendTo('body');
+      } else {
+        $(`  <script src="vendors.bundle.js"></script>\n`).appendTo('body');
+        $(`  <script src="app.bundle.js"></script>\n`).appendTo('body');
       }
+      
       $(`  <script src="${rawgit}/${toolboxConfig['main.js']}"></script>\n`).appendTo('body');
     }))
     .pipe(gulp.dest(config.dest, {cwd: config.project}));
