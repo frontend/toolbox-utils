@@ -2,6 +2,7 @@
 
 const webpack = require('webpack');
 const path    = require('path');
+const PrettierPlugin = require('prettier-webpack-plugin');
 const config = require('./tasks/config');
 
 module.exports = {
@@ -51,5 +52,14 @@ module.exports = {
       filename: 'vendors.bundle.js'
     }),
     new webpack.HotModuleReplacementPlugin(),
+    new PrettierPlugin({
+      singleQuote: true,
+      printWidth: 80,
+      tabWidth: 2,
+      useTabs: false,
+      semi: true,
+      encoding: 'utf-8',
+      extensions: [ ".js", ".ts" ]
+    })
   ]
 };
