@@ -53,5 +53,5 @@ const stylesLint = () => {
     ));
 };
 
-const styles = gulp.parallel(stylesLint, stylesBuild)
+const styles = gulp.parallel(stylesLint, stylesBuild);
 module.exports = styles;

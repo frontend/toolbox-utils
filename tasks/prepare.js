@@ -8,6 +8,9 @@ const yargs = require('yargs');
 const rawgit = 'https://rawgit.com/frontend/toolbox-reader/master/build';
 const dirs = ['atoms', 'molecules', 'organisms', 'pages'];
 
+const colors = require(`${config.project}/${config.src}config/colors.json`);
+const data = require(`${config.project}/${config.src}config/data.json`);
+
 const prepare = async (done) => {
 
   const components = [];
@@ -28,11 +31,10 @@ const prepare = async (done) => {
     files.forEach(file => components.push(`./components/${dir}/${file}`));
   });
 
-  const data = fs.readFileSync(`${config.project}/${config.src}config/data.json`).toString();
-
   return gulp.src('./templates/index.html')
     .pipe($.replace('[/* SOURCES */]', JSON.stringify(components)))
-    .pipe($.replace('{/* DATA */}', data))
+    .pipe($.replace('{/* DATA */}', JSON.stringify(data)))
+    .pipe($.replace('{/* COLORS */}', JSON.stringify(colors)))
     .pipe($.cheerio(($, file) => {
       $(`  <link rel="stylesheet" href="${rawgit}/${toolboxConfig['main.css']}">\n`).appendTo('head');
 
@@ -43,7 +45,7 @@ const prepare = async (done) => {
         $(`  <script src="vendors.bundle.js"></script>\n`).appendTo('body');
         $(`  <script src="app.bundle.js"></script>\n`).appendTo('body');
       }
-      
+
       $(`  <script src="${rawgit}/${toolboxConfig['main.js']}"></script>\n`).appendTo('body');
     }))
     .pipe(gulp.dest(config.dest, {cwd: config.project}));
