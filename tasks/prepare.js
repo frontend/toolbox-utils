@@ -22,11 +22,14 @@ const prepare = async (done) => {
   dirs.forEach((dir) => {
     let files = fs.readdirSync(`${config.project}/${config.src}components/${dir}`);
 
-    // ignore .gitkeep
-    const gitKeepIndex = files.indexOf('.gitkeep');
-    if (gitKeepIndex > -1) {
-      files = [...files.slice(0, gitKeepIndex), ...files.slice(gitKeepIndex + 1)];
-    }
+   // ignore files
+    const ignoreFiles = ['.gitkeep', '.DS_Store'];
+    ignoreFiles.forEach((file) => {
+      const index = files.indexOf(file);
+      if (index > -1) {
+        files = [...files.slice(0, index), ...files.slice(index + 1)];
+      }
+    });
 
     files.forEach(file => components.push(`./components/${dir}/${file}`));
   });
