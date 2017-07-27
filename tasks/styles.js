@@ -49,7 +49,7 @@ const stylesLint = () => {
           clearReportedMessages: true,
         }),
       ],
-      { syntax: require('postcss-scss') },
+      { syntax: require('postcss-scss') }
     ));
 };
 

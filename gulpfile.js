@@ -81,8 +81,8 @@ const build = gulp.series(
     vendors,
     single,
     icons,
-    prepareStyleguide,
-  ),
+    prepareStyleguide
+  )
 );
 
 gulp.task('serve', gulp.series(build, serve));
