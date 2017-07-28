@@ -86,7 +86,7 @@ const build = gulp.series(
 );
 
 gulp.task('serve', gulp.series(build, serve));
-gulp.task('prepare', gulp.series(prepare));
+gulp.task('prepare', prepare);
 gulp.task('build', build);
 gulp.task('clean', clean);
 gulp.task('copy-assets', copyAssets);
