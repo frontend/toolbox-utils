@@ -1,0 +1,22 @@
+<ul class="list-items">
+  {% for i in 0..5 %}
+  <li>
+    <a href="#" class="list-item">
+      <span class="list-item-icon">
+        <span class="btn btn-secondary btn-circle" aria-hidden="true">
+          {% include "@atoms/icon/icon.twig" with {icon: 'activities'} %}
+        </span>
+      </span>
+      <span class="list-item-inside">27 juillet 2017</span>
+      <span class="list-item-inside">13:00 – 15:00</span>
+      {% if loop.index == 3 %}
+        {% include "@atoms/flag/flag.twig" with {classes: ['list-item-flag', 'flag-blue']} %}
+      {% endif %}
+      <span class="btn btn-outline-secondary btn-icon btn-icon-to-circle shadow-to-left btn-white ml-auto">
+        {% include "@atoms/icon/icon.twig" with {icon: 'look'} %}
+        <span class="hidden-sm-down">Voir les détails</span>
+      </span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>

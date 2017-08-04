@@ -1,0 +1,25 @@
+<div class="navbar-container">
+  <button class="btn btn-outline-primary navbar-toggle" title="Afficher le menu">
+    {% include "@atoms/icon/icon.twig" with {icon: 'wheel'} %}
+  </button>
+  <div class="navbar-current">
+    <div class="navbar-filters">
+      <button class="btn btn-primary btn-icon">
+        {% include "@atoms/icon/icon.twig" with {icon: 'activities'} %}
+        <span class="sr-only">Page courante:</span>
+        Activités
+      </button>
+      <h2 class="sr-only">Options de tri</h2>
+      <button class="btn btn-outline-primary navbar-filter">Par thème</button>
+      <button class="btn btn-outline-primary active navbar-filter"><span class="sr-only">Filtre actif:</span>Par date</button>
+    </div>
+  </div>
+  <nav class="navbar">
+    {% for key, value in nav_items %}
+    <a href="#" class="nav-item{{ loop.index == 2 ? ' active' }}">
+        {% include "@atoms/icon/icon.twig" with {icon: key ~ '-big'} %}
+        {{value}}
+      </a> {% endfor %}
+  </nav>
+  <div class="navbar-overlay"></div>
+</div>

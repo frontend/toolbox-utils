@@ -1,0 +1,43 @@
+<div class="card">
+  <div class="card-header">
+    <span class="card-header-icon">
+      {% include "@atoms/icon/icon.twig" with {icon: 'activities', circle: true} %}
+    </span>
+    <span class="card-header-title">
+      <span>22 juillet 2017</span>
+      <span>13:00 – 13:30</span>
+    </span>
+    {% include "@atoms/flag/flag.twig" with {icon: 'confirmed'} %}
+  </div>
+  <div class="card-block pb-1">
+    <div class="card-icon">
+       {% include "@atoms/icon/icon.twig" with {icon: 'themes', circle: true} %}
+    </div>
+    <h4 class="card-title">Atelier Générations-Net'</h4>
+    <p class="card-text">Atelier intergénérationnel de pratique informatique (ordinateur, tablette, smartphone, etc.) du SeMo Mobilet’. Un jeune, un senior; des solutions! Session de deux heures au maximum. Tarif horaire.</p>
+
+    <div class="card-actions row">
+      <div class="col-sm-6 mb-3">
+        <button class="btn btn-outline-secondary btn-icon btn-white shadow-to-left btn-block">
+          {% include "@atoms/icon/icon.twig" with {icon: 'register'} %}
+          S'inscrire à l'événement
+        </button>
+      </div>
+      <div class="col-sm-6 mb-3">
+        <button class="btn btn-outline-secondary btn-icon btn-white shadow-to-right btn-block">
+          {% include "@atoms/icon/icon.twig" with {icon: 'user'} %}
+          Contacter l'organisateur
+        </button>
+      </div>
+      <div class="col-sm-6 mb-3">
+        <button class="btn btn-outline-secondary btn-icon btn-white shadow-to-left btn-block">
+          {% include "@atoms/icon/icon.twig" with {icon: 'meeting'} %}
+          Point de rendez-vous
+        </button>
+      </div>
+      <div class="col-sm-6 mb-3">
+         {% include "@atoms/badge/badge.twig" %}
+      </div>
+    </div>
+  </div>
+</div>
