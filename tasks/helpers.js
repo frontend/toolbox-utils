@@ -1,10 +1,11 @@
 const yargs = require('yargs');
+const config = require('./config');
 const gulpLoadPlugins = require('gulp-load-plugins');
 
 const $ = gulpLoadPlugins();
 
 function errorAlert(error) {
-  if (!yargs.argv.production) {
+  if (!config.production) {
     $.notify.onError({ title: 'SCSS Error', message: 'Check your terminal', sound: 'Sosumi' })(error);
     $.util.log(error.messageFormatted ? error.messageFormatted : error.message);
   }
@@ -13,8 +14,8 @@ function errorAlert(error) {
 module.exports.errorAlert = errorAlert;
 
 function pathTo(relativePath) {
-  return `${yargs.argv.project}/${relativePath}`;
+  return `${config.project}/${relativePath}`;
 }
 module.exports.pathTo = pathTo;
 
-module.exports.projectPath = yargs.argv.project;
+module.exports.projectPath = config.project;

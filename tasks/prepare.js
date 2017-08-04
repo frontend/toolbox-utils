@@ -3,7 +3,6 @@ const $ = require('gulp-load-plugins')();
 const config = require('./config');
 const fs = require('fs');
 const fetch = require('node-fetch');
-const yargs = require('yargs');
 
 const rawgit = 'https://rawgit.com/frontend/toolbox-reader/master/build';
 const dirs = ['atoms', 'molecules', 'organisms', 'pages'];
@@ -40,7 +39,7 @@ const prepare = async (done) => {
     .pipe($.cheerio(($, file) => {
       $(`  <link rel="stylesheet" href="${rawgit}/${toolboxConfig['main.css']}">\n`).appendTo('head');
 
-      if (!yargs.argv.dev) {
+      if (!config.dev) {
         $(`  <script src="../js/vendors.bundle.js"></script>\n`).appendTo('body');
         $(`  <script src="../js/app.bundle.js"></script>\n`).appendTo('body');
       } else {

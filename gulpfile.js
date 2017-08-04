@@ -4,7 +4,6 @@ const gulp = require('gulp');
 
 const del = require('del');
 const merge = require('merge-stream');
-const yargs = require('yargs');
 
 const styles = require('./tasks/styles');
 const scripts = require('./tasks/scripts');
@@ -49,7 +48,7 @@ const copyPathsDev = [{
  * Copy stuff
  */
 const copyAssets = () => {
-  if (yargs.argv.dev || yargs.argv.styleguide) {
+  if (config.dev || config.styleguide) {
     copyPaths.push(...copyPathsDev);
   }
 
@@ -63,7 +62,7 @@ const copyAssets = () => {
  * Prepare styleguide if needed
  */
 const prepareStyleguide = (done) => {
-  if (yargs.argv.dev || yargs.argv.styleguide) {
+  if (config.dev || config.styleguide) {
     prepare();
   }
   done();
