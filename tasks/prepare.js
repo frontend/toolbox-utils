@@ -8,10 +8,9 @@ const yargs = require('yargs');
 const rawgit = 'https://rawgit.com/frontend/toolbox-reader/master/build';
 const dirs = ['atoms', 'molecules', 'organisms', 'pages'];
 
-const colors = require(`${config.project}/${config.src}config/colors.json`);
-const data = require(`${config.project}/${config.src}config/data.json`);
-
 const prepare = async (done) => {
+  const colors = await fs.readFileSync(`${config.project}/${config.src}config/colors.json`);
+  const data = await fs.readFileSync(`${config.project}/${config.src}config/data.json`);
 
   const components = [];
   const toolboxConfig = await fetch(`${rawgit}/asset-manifest.json`)
@@ -22,19 +21,22 @@ const prepare = async (done) => {
   dirs.forEach((dir) => {
     let files = fs.readdirSync(`${config.project}/${config.src}components/${dir}`);
 
-    // ignore .gitkeep
-    const gitKeepIndex = files.indexOf('.gitkeep');
-    if (gitKeepIndex > -1) {
-      files = [...files.slice(0, gitKeepIndex), ...files.slice(gitKeepIndex + 1)];
-    }
+   // ignore files
+    const ignoreFiles = ['.gitkeep', '.DS_Store'];
+    ignoreFiles.forEach((file) => {
+      const index = files.indexOf(file);
+      if (index > -1) {
+        files = [...files.slice(0, index), ...files.slice(index + 1)];
+      }
+    });
 
     files.forEach(file => components.push(`./components/${dir}/${file}`));
   });
 
   return gulp.src('./templates/index.html')
     .pipe($.replace('[/* SOURCES */]', JSON.stringify(components)))
-    .pipe($.replace('{/* DATA */}', JSON.stringify(data)))
-    .pipe($.replace('{/* COLORS */}', JSON.stringify(colors)))
+    .pipe($.replace('{/* DATA */}', JSON.stringify(JSON.parse(data))))
+    .pipe($.replace('{/* COLORS */}', JSON.stringify(JSON.parse(colors))))
     .pipe($.cheerio(($, file) => {
       $(`  <link rel="stylesheet" href="${rawgit}/${toolboxConfig['main.css']}">\n`).appendTo('head');
 
