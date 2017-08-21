@@ -101,7 +101,8 @@ const serve = () => {
   gulp.watch([
     `${pathTo(config.src)}**/*.js`
   ], gulp.series(
-    scripts
+    scripts,
+    reload
   ));
 };
 
