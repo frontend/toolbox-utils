@@ -1,13 +1,2 @@
 title: Button
 name: button
-variants:
-  - Secondary
-  - Floating
-  - Icon
-notes: |
-  Buttons are used for all main actions. The action they provide should always be self-explanatory, do only one thing and lead to what the user expects.
-
-  You can add several classes to customize the button component:
-
-  - `shadow-to-[right|left]`: adds a drop-shadow (you should decide which one to use depending on what side of the screen the button is at)
-  - `active`: display the button in an active state
