@@ -11,7 +11,7 @@ const prepare = async (done) => {
   const colors = await fs.readFileSync(`${config.project}/${config.src}config/colors.json`);
   const data = await fs.readFileSync(`${config.project}/${config.src}config/data.json`);
 
-  const components = [];
+  const components = {};
   const toolboxConfig = await fetch(`${rawgit}/asset-manifest.json`)
     .then(function(res) {
       return res.json();
@@ -29,7 +29,8 @@ const prepare = async (done) => {
       }
     });
 
-    files.forEach(file => components.push(`./components/${dir}/${file}`));
+    components[dir] = [];
+    files.forEach(file => components[dir].push(file));
   });
 
   return gulp.src('./templates/index.html')
