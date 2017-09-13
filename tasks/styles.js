@@ -11,6 +11,7 @@ const $ = gulpLoadPlugins();
  */
 const src = {
   mainScss: `${config.src}components/base.scss`,
+  styleguideScss: `${config.src}config/styleguide.scss`,
   scss: `${config.src}components/**/*.scss`,
 };
 
@@ -27,7 +28,9 @@ const dest = {
  * - CSSNano minifies the output.
  */
 const stylesBuild = () => {
-  return gulp.src(src.mainScss, {cwd: config.project})
+  const source = config.dev || config.styleguide ? [src.mainScss, src.styleguideScss] : src.mainScss;
+
+  return gulp.src(source, {cwd: config.project})
     .pipe($.plumber({ errorHandler: errorAlert }))
     .pipe($.sourcemaps.init())
     .pipe($.sass.sync().on('error', $.sass.logError))

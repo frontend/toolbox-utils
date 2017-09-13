@@ -3,7 +3,6 @@ const $ = require('gulp-load-plugins')();
 const config = require('./config');
 const fs = require('fs');
 const fetch = require('node-fetch');
-const yargs = require('yargs');
 
 const rawgit = 'https://rawgit.com/frontend/toolbox-reader/master/build';
 const dirs = ['atoms', 'molecules', 'organisms', 'pages'];
@@ -12,7 +11,7 @@ const prepare = async (done) => {
   const colors = await fs.readFileSync(`${config.project}/${config.src}config/colors.json`);
   const data = await fs.readFileSync(`${config.project}/${config.src}config/data.json`);
 
-  const components = [];
+  const components = {};
   const toolboxConfig = await fetch(`${rawgit}/asset-manifest.json`)
     .then(function(res) {
       return res.json();
@@ -30,7 +29,8 @@ const prepare = async (done) => {
       }
     });
 
-    files.forEach(file => components.push(`./components/${dir}/${file}`));
+    components[dir] = [];
+    files.forEach(file => components[dir].push(file));
   });
 
   return gulp.src('./templates/index.html')
@@ -40,7 +40,7 @@ const prepare = async (done) => {
     .pipe($.cheerio(($, file) => {
       $(`  <link rel="stylesheet" href="${rawgit}/${toolboxConfig['main.css']}">\n`).appendTo('head');
 
-      if (!yargs.argv.dev) {
+      if (!config.dev) {
         $(`  <script src="../js/vendors.bundle.js"></script>\n`).appendTo('body');
         $(`  <script src="../js/app.bundle.js"></script>\n`).appendTo('body');
       } else {
