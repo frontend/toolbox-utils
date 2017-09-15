@@ -41,8 +41,8 @@ const prepare = async (done) => {
       $(`  <link rel="stylesheet" href="${rawgit}/${toolboxConfig['main.css']}">\n`).appendTo('head');
 
       if (!config.dev) {
-        $(`  <script src="../js/vendors.bundle.js"></script>\n`).appendTo('body');
-        $(`  <script src="../js/app.bundle.js"></script>\n`).appendTo('body');
+        $(`  <script src="js/vendors.bundle.js"></script>\n`).appendTo('body');
+        $(`  <script src="js/app.bundle.js"></script>\n`).appendTo('body');
       } else {
         $(`  <script src="vendors.bundle.js"></script>\n`).appendTo('body');
         $(`  <script src="app.bundle.js"></script>\n`).appendTo('body');
