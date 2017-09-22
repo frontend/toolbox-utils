@@ -15,14 +15,16 @@ const $ = loadPlugins();
  */
 const scripts = (done) => {
   // run webpack
-  webpack(webpackSettings, function(err, stats) {
-    if(err) throw new $.util.PluginError('webpack', err);
-    $.util.log('[webpack]', stats.toString({
-      cached: false,
-      colors: true,
-    }));
-    done();
-  });
+  if (config.production) {
+    webpack(webpackSettings, function(err, stats) {
+      if(err) throw new $.util.PluginError('webpack', err);
+      $.util.log('[webpack]', stats.toString({
+        cached: false,
+        colors: true,
+      }));
+      done();
+    });
+  } else { done(); }
 };
 
 module.exports = scripts;
