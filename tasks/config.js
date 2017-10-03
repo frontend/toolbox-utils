@@ -1,6 +1,9 @@
-const yargs = require('yargs');
-const config = require(`${yargs.argv.project}/toolbox.json`);
+const argv = require('yargs').argv;
+const config = require(`${argv.project}/toolbox.json`);
 
-config.project = yargs.argv.project;
+config.project = argv.project;
+config.dev = argv.dev;
+config.production = argv.production;
+config.styleguide = argv.styleguide;
 
 module.exports = config;
