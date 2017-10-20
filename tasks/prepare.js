@@ -33,23 +33,48 @@ const prepare = async (done) => {
     files.forEach(file => components[dir].push(file));
   });
 
-  return gulp.src('./templates/index.html')
-    .pipe($.replace('[/* SOURCES */]', JSON.stringify(components)))
-    .pipe($.replace('{/* DATA */}', JSON.stringify(JSON.parse(data))))
-    .pipe($.replace('{/* COLORS */}', JSON.stringify(JSON.parse(colors))))
+  $.util.log('Using template', $.util.colors.magenta(config.custom_template || config.template));
+
+  return gulp.src(config.custom_template || config.template, { cwd: config.custom_template ? config.project : '' })
     .pipe($.cheerio(($, file) => {
-      $(`  <link rel="stylesheet" href="${rawgit}/${toolboxConfig['main.css']}">\n`).appendTo('head');
+
+      $(`
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twig.js/0.8.9/twig.min.js"></script>\n
+        <script type="text/javascript">\n
+          window.sources = ${JSON.stringify(components)};\n
+          window.data = ${JSON.stringify(data)};\n
+          window.colors = ${JSON.stringify(JSON.parse(colors))};\n
+        </script>\n
+        <link rel="stylesheet" href="css/base.css">\n
+        <link rel="stylesheet" href="${rawgit}/${toolboxConfig['main.css']}">\n
+      `).appendTo('head');
+
+      if (config.vendors.css) {
+        $(`
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/twig.js/0.8.9/twig.min.js"></script>\n
+          <link rel="stylesheet" href="css/vendors.min.css">\n
+        `).appendTo('head');
+      }
+
+      if (config.vendors.js) {
+        $(`  <script src="js/vendors.min.js"></script>\n`).appendTo('body');
+      }
 
       if (!config.dev) {
-        $(`  <script src="js/vendors.bundle.js"></script>\n`).appendTo('body');
-        $(`  <script src="js/app.bundle.js"></script>\n`).appendTo('body');
+        $(`
+          <script src="js/vendors.bundle.js"></script>\n
+          <script src="js/app.bundle.js"></script>\n
+        `).appendTo('body');
       } else {
-        $(`  <script src="vendors.bundle.js"></script>\n`).appendTo('body');
-        $(`  <script src="app.bundle.js"></script>\n`).appendTo('body');
+        $(`
+          <script src="vendors.bundle.js"></script>\n
+          <script src="app.bundle.js"></script>\n
+        `).appendTo('body');
       }
 
       $(`  <script src="${rawgit}/${toolboxConfig['main.js']}"></script>\n`).appendTo('body');
     }))
+    .pipe($.rename('index.html'))
     .pipe(gulp.dest(config.dest, {cwd: config.project}));
 }
 
