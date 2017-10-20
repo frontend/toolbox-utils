@@ -46,12 +46,12 @@ const prepare = async (done) => {
           window.colors = ${JSON.stringify(JSON.parse(colors))};\n
         </script>\n
         <link rel="stylesheet" href="css/base.css">\n
-        <link rel="stylesheet" href="${rawgit}/${toolboxConfig['main.css']}">\n
+        <link rel="stylesheet" href="${rawgit}/${toolboxConfig['main.css']}">
+        <link rel="stylesheet" href="css/styleguide.css">\n
       `).appendTo('head');
 
       if (config.vendors.css) {
         $(`
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/twig.js/0.8.9/twig.min.js"></script>\n
           <link rel="stylesheet" href="css/vendors.min.css">\n
         `).appendTo('head');
       }
