@@ -17,7 +17,12 @@ const prepare = async (done) => {
     });
 
   dirs.forEach((dir) => {
-    let files = fs.readdirSync(`${config.project}/${config.src}components/${dir}`);
+    let files = null;
+    try {
+      files = fs.readdirSync(`${config.project}/${config.src}components/${dir}`);
+    } catch (error) {
+      return;
+    }
 
     // ignore .gitkeep
     const gitKeepIndex = files.indexOf('.gitkeep');

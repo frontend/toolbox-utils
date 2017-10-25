@@ -6,12 +6,12 @@ const config = require(`${yargs.argv.project}/toolbox.json`);
 const loadPlugins = require('gulp-load-plugins');
 const $ = loadPlugins();
 
-const name = config.iconsFontName;
+const name = config.iconName;
 
 /*
  * Build icons font and stylesheets
  */
-const fonticons = () => {
+const icons = () => {
   return gulp.src(`${yargs.argv.project}/${config.src}icons/**/*.svg`)
     .pipe($.iconfont({
       fontName: name,
@@ -35,4 +35,4 @@ const fonticons = () => {
     .pipe(gulp.dest(`${yargs.argv.project}/${config.dest}fonts`));
 };
 
-module.exports = fonticons;
+module.exports = icons;
