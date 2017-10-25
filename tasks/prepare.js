@@ -33,26 +33,26 @@ const prepare = async (done) => {
     files.forEach(file => components[dir].push(file));
   });
 
-  $.util.log('Using template', $.util.colors.magenta(config.custom_template || config.template));
+  $.util.log('Using template', $.util.colors.magenta(config.template));
 
-  return gulp.src(config.custom_template || config.template, { cwd: config.custom_template ? config.project : '' })
+  return gulp.src(config.template, { cwd: config.base_template ? '' : config.project })
     .pipe($.cheerio(($, file) => {
 
       $(`
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twig.js/0.8.9/twig.min.js"></script>\n
-        <script type="text/javascript">\n
-          window.sources = ${JSON.stringify(components)};\n
-          window.data = ${JSON.stringify(data)};\n
-          window.colors = ${JSON.stringify(JSON.parse(colors))};\n
-        </script>\n
-        <link rel="stylesheet" href="css/base.css">\n
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twig.js/0.8.9/twig.min.js"></script>
+        <script type="text/javascript">
+          window.sources = ${JSON.stringify(components)};
+          window.data = ${JSON.stringify(data)};
+          window.colors = ${JSON.stringify(JSON.parse(colors))};
+        </script>
+        <link rel="stylesheet" href="css/base.css">
         <link rel="stylesheet" href="${rawgit}/${toolboxConfig['main.css']}">
-        <link rel="stylesheet" href="css/styleguide.css">\n
+        <link rel="stylesheet" href="css/styleguide.css">
       `).appendTo('head');
 
       if (config.vendors.css) {
         $(`
-          <link rel="stylesheet" href="css/vendors.min.css">\n
+          <link rel="stylesheet" href="css/vendors.min.css">
         `).appendTo('head');
       }
 
@@ -62,13 +62,13 @@ const prepare = async (done) => {
 
       if (!config.dev) {
         $(`
-          <script src="js/vendors.bundle.js"></script>\n
-          <script src="js/app.bundle.js"></script>\n
+          <script src="js/vendors.bundle.js"></script>
+          <script src="js/app.bundle.js"></script>
         `).appendTo('body');
       } else {
         $(`
-          <script src="vendors.bundle.js"></script>\n
-          <script src="app.bundle.js"></script>\n
+          <script src="vendors.bundle.js"></script>
+          <script src="app.bundle.js"></script>
         `).appendTo('body');
       }
 
