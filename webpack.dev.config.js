@@ -50,6 +50,6 @@ module.exports = {
       minChunks: 2,
       filename: 'vendors.bundle.js'
     }),
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin()
   ]
 };

@@ -1,6 +1,5 @@
 const gulp = require('gulp');
 const webpack = require('webpack');
-const yargs = require('yargs');
 const webpackSettings = require('../webpack.prod.config');
 const errorAlert = require('./helpers');
 
@@ -16,7 +15,7 @@ const $ = loadPlugins();
  */
 const scripts = (done) => {
   // run webpack
-  if (yargs.argv.production) {
+  if (config.production) {
     webpack(webpackSettings, function(err, stats) {
       if(err) throw new $.util.PluginError('webpack', err);
       $.util.log('[webpack]', stats.toString({

@@ -1,4 +1,11 @@
+
 # Toolbox Utils - CHANGELOG
+
+*1.0.8* (2017-07-28)
+  - 🐛 fix refreshing data/color when save (f79cf7f)
+
+*1.0.7* (2017-07-26)
+  - 🐛 fix “Cannot find module 'prettier-webpack-plugin'” (0937cf2)
 
 ## 1.0.4 (2017-06-21)
 - add `data.json` content to index.html

@@ -4,7 +4,6 @@ const gulp = require('gulp');
 
 const del = require('del');
 const merge = require('merge-stream');
-const yargs = require('yargs');
 
 const styles = require('./tasks/styles');
 const scripts = require('./tasks/scripts');
@@ -12,6 +11,7 @@ const vendors = require('./tasks/vendors');
 const single = require('./tasks/single');
 const serve = require('./tasks/serve');
 const prepare = require('./tasks/prepare');
+const deploy = require('./tasks/deploy');
 
 const config = require('./tasks/config');
 
@@ -51,7 +51,7 @@ const copyPathsDev = [{
  * Copy stuff
  */
 const copyAssets = () => {
-  if (yargs.argv.dev || yargs.argv.styleguide) {
+  if (config.dev || config.styleguide) {
     copyPaths.push(...copyPathsDev);
   }
 
@@ -65,7 +65,7 @@ const copyAssets = () => {
  * Prepare styleguide if needed
  */
 const prepareStyleguide = (done) => {
-  if (yargs.argv.dev || yargs.argv.styleguide) {
+  if (config.dev || config.styleguide) {
     prepare();
   }
   done();
@@ -88,7 +88,8 @@ const build = gulp.series(
 );
 
 gulp.task('serve', gulp.series(build, serve));
-gulp.task('prepare', gulp.series(prepare));
+gulp.task('prepare', prepare);
+gulp.task('deploy', deploy);
 gulp.task('build', build);
 gulp.task('clean', clean);
 gulp.task('copy-assets', copyAssets);
@@ -97,4 +98,5 @@ gulp.task('scripts', scripts);
 gulp.task('vendors', vendors);
 gulp.task('icons', icons);
 gulp.task('single', gulp.series(single));
+gulp.task('deploy', deploy);
 gulp.task('default', build);
