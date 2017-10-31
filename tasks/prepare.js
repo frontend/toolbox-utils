@@ -44,6 +44,7 @@ const prepare = async (done) => {
           window.sources = ${JSON.stringify(components)};
           window.data = ${JSON.stringify(data)};
           window.colors = ${JSON.stringify(colors)};
+          ${ config.theme ? `window.theme = ${JSON.stringify(config.theme)};` : '' }
         </script>
         <link rel="stylesheet" href="css/base.css">
         <link rel="stylesheet" href="${rawgit}/${toolboxConfig['main.css']}">
