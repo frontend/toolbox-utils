@@ -18,7 +18,12 @@ const prepare = async (done) => {
     });
 
   dirs.forEach((dir) => {
-    let files = fs.readdirSync(`${config.project}/${config.src}components/${dir}`);
+    let files = null;
+    try {
+      files = fs.readdirSync(`${config.project}/${config.src}components/${dir}`);
+    } catch (error) {
+      return;
+    }
 
    // ignore files
     const ignoreFiles = ['.gitkeep', '.DS_Store'];
