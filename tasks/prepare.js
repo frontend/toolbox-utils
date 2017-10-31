@@ -42,8 +42,8 @@ const prepare = async (done) => {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twig.js/0.8.9/twig.min.js"></script>
         <script type="text/javascript">
           window.sources = ${JSON.stringify(components)};
-          window.data = ${JSON.stringify(data)};
-          window.colors = ${JSON.stringify(JSON.parse(colors))};
+          window.data = ${data};
+          window.colors = ${colors};
         </script>
         <link rel="stylesheet" href="css/base.css">
         <link rel="stylesheet" href="${rawgit}/${toolboxConfig['main.css']}">
