@@ -44,6 +44,7 @@ const prepare = async (done) => {
           window.sources = ${JSON.stringify(components)};
           window.data = ${JSON.stringify(data)};
           window.colors = ${JSON.stringify(colors)};
+          window.version = ${config.version};
           ${ config.theme ? `window.theme = ${JSON.stringify(config.theme)};` : '' }
         </script>
         <link rel="stylesheet" href="css/base.css">
