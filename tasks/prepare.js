@@ -4,7 +4,7 @@ const config = require('./config');
 const fs = require('fs-extra');
 const fetch = require('node-fetch');
 
-const rawgit = config.reader_path || 'http://localhost/toolbox-env/toolbox-reader/build';
+const rawgit = config.reader_path || 'https://rawgit.com/frontend/toolbox-reader/master/build';
 const dirs = ['atoms', 'molecules', 'organisms', 'pages'];
 
 const prepare = async (done) => {
