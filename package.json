@@ -51,6 +51,7 @@
     "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.1.0",
+    "fs-extra": "^4.0.2",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-cheerio": "^0.6.2",
     "gulp-concat": "^2.6.1",
