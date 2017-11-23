@@ -12,6 +12,7 @@ const prepare = async (done) => {
   const data = await fs.readJsonSync(`${config.project}/${config.src}config/data.json`);
 
   const components = {};
+  const ignoreFiles = ['.gitkeep', '.DS_Store', 'index.md'];
   const toolboxConfig = await fetch(`${rawgit}/asset-manifest.json`)
     .then(function(res) {
       return res.json();
@@ -20,8 +21,7 @@ const prepare = async (done) => {
   dirs.forEach((dir) => {
     let files = fs.readdirSync(`${config.project}/${config.src}components/${dir}`);
 
-   // ignore files
-    const ignoreFiles = ['.gitkeep', '.DS_Store'];
+    // ignore files
     ignoreFiles.forEach((file) => {
       const index = files.indexOf(file);
       if (index > -1) {
@@ -33,6 +33,17 @@ const prepare = async (done) => {
     files.forEach(file => components[dir].push(file));
   });
 
+  // Get doc files
+  let docFiles = null;
+  docFiles = fs.readdirSync(`${config.project}/docs`);
+  // ignore files
+  ignoreFiles.forEach((file) => {
+    const index = docFiles.indexOf(file);
+    if (index > -1) {
+      docFiles = [...docFiles.slice(0, index), ...docFiles.slice(index + 1)];
+    }
+  });
+
   $.util.log('Using template', $.util.colors.magenta(config.template));
 
   return gulp.src(config.template, { cwd: config.base_template ? '' : config.project })
@@ -42,6 +53,7 @@ const prepare = async (done) => {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twig.js/0.8.9/twig.min.js"></script>
         <script type="text/javascript">
           window.sources = ${JSON.stringify(components)};
+          window.docs = ${JSON.stringify(docFiles)};
           window.data = ${JSON.stringify(data)};
           window.colors = ${JSON.stringify(colors)};
           window.version = "${config.version}";

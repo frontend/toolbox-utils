@@ -43,6 +43,10 @@ let copyPaths = [{
 const copyPathsDev = [{
   src: 'components/**/!(*.scss)',
   dest: '/components',
+}, {
+  root: true,
+  src: 'docs/**/*.md',
+  dest: '/docs',
 }];
 
 /**
@@ -54,7 +58,8 @@ const copyAssets = () => {
   }
 
   return merge(copyPaths.map((item) => {
-    return gulp.src(config.src + item.src, {cwd: config.project})
+    const baseDir = item.root ? '' : config.src;
+    return gulp.src(baseDir + item.src, {cwd: config.project})
       .pipe(gulp.dest(config.dest + item.dest, {cwd: config.project}));
   }));
 };
