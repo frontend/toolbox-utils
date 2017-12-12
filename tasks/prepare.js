@@ -5,7 +5,7 @@ const fs = require('fs-extra');
 const dirTree = require('./helpers').dirTree;
 const fetch = require('node-fetch');
 
-const rawgit = config.reader_path || 'https://rawgit.com/frontend/toolbox-reader/master/build';
+const rawgit = config.reader_path || 'https://rawgit.com/frontend/toolbox-reader/master/build/static';
 const dirs = ['atoms', 'molecules', 'organisms', 'pages'];
 
 const prepare = async (done) => {
@@ -14,10 +14,6 @@ const prepare = async (done) => {
 
   const components = {};
   const ignoreFiles = ['.gitkeep', '.DS_Store', 'index.md'];
-  const toolboxConfig = await fetch(`${rawgit}/asset-manifest.json`)
-    .then(function(res) {
-      return res.json();
-    });
 
   dirs.forEach((dir) => {
     let files = fs.readdirSync(`${config.project}/${config.src}components/${dir}`);
@@ -53,7 +49,7 @@ const prepare = async (done) => {
           ${ config.theme ? `window.theme = ${JSON.stringify(config.theme)};` : '' }
         </script>
         <link rel="stylesheet" href="css/base.css">
-        <link rel="stylesheet" href="${rawgit}/${toolboxConfig['main.css']}">
+        <link rel="stylesheet" href="${rawgit}/css/main.css">
         <link rel="stylesheet" href="css/styleguide.css">
       `).appendTo('head');
 
@@ -79,7 +75,7 @@ const prepare = async (done) => {
         `).appendTo('body');
       }
 
-      $(`  <script src="${rawgit}/${toolboxConfig['main.js']}"></script>\n`).appendTo('body');
+      $(`  <script src="${rawgit}/css/main.js"></script>\n`).appendTo('body');
     }))
     .pipe($.rename('index.html'))
     .pipe(gulp.dest(config.dest, {cwd: config.project}));
