@@ -45,7 +45,7 @@ const copyPathsDev = [{
   dest: '/components',
 }, {
   root: true,
-  src: 'docs/**/*.md',
+  src: 'docs/**/*.{md,html}',
   dest: '/docs',
 }];
 
