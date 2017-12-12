@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 const config = require('./config');
 const fs = require('fs-extra');
+const dirTree = require('./helpers').dirTree;
 const fetch = require('node-fetch');
 
 const rawgit = config.reader_path || 'https://rawgit.com/frontend/toolbox-reader/master/build';
@@ -34,15 +35,7 @@ const prepare = async (done) => {
   });
 
   // Get doc files
-  let docFiles = null;
-  docFiles = fs.readdirSync(`${config.project}/docs`);
-  // ignore files
-  ignoreFiles.forEach((file) => {
-    const index = docFiles.indexOf(file);
-    if (index > -1) {
-      docFiles = [...docFiles.slice(0, index), ...docFiles.slice(index + 1)];
-    }
-  });
+  const docFiles = await dirTree(`${config.project}/docs`);
 
   $.util.log('Using template', $.util.colors.magenta(config.template));
 
