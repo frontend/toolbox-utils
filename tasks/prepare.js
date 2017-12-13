@@ -2,9 +2,10 @@ const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 const config = require('./config');
 const fs = require('fs-extra');
+const dirTree = require('./helpers').dirTree;
 const fetch = require('node-fetch');
 
-const rawgit = config.reader_path || 'https://rawgit.com/frontend/toolbox-reader/master/build';
+const rawgit = config.reader_path || 'https://rawgit.com/frontend/toolbox-reader/master/build/static';
 const dirs = ['atoms', 'molecules', 'organisms', 'pages'];
 
 const prepare = async (done) => {
@@ -12,10 +13,7 @@ const prepare = async (done) => {
   const data = await fs.readJsonSync(`${config.project}/${config.src}config/data.json`);
 
   const components = {};
-  const toolboxConfig = await fetch(`${rawgit}/asset-manifest.json`)
-    .then(function(res) {
-      return res.json();
-    });
+  const ignoreFiles = ['.gitkeep', '.DS_Store', 'index.md'];
 
   dirs.forEach((dir) => {
     let files = null;
@@ -25,8 +23,7 @@ const prepare = async (done) => {
       return;
     }
 
-   // ignore files
-    const ignoreFiles = ['.gitkeep', '.DS_Store'];
+    // ignore files
     ignoreFiles.forEach((file) => {
       const index = files.indexOf(file);
       if (index > -1) {
@@ -38,6 +35,9 @@ const prepare = async (done) => {
     files.forEach(file => components[dir].push(file));
   });
 
+  // Get doc files
+  const docFiles = await dirTree(`${config.project}/docs`);
+
   $.util.log('Using template', $.util.colors.magenta(config.template));
 
   return gulp.src(config.template, { cwd: config.base_template ? '' : config.project })
@@ -47,13 +47,14 @@ const prepare = async (done) => {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twig.js/0.8.9/twig.min.js"></script>
         <script type="text/javascript">
           window.sources = ${JSON.stringify(components)};
+          window.docs = ${JSON.stringify(docFiles)};
           window.data = ${JSON.stringify(data)};
           window.colors = ${JSON.stringify(colors)};
           window.version = "${config.version}";
           ${ config.theme ? `window.theme = ${JSON.stringify(config.theme)};` : '' }
         </script>
         <link rel="stylesheet" href="css/base.css">
-        <link rel="stylesheet" href="${rawgit}/${toolboxConfig['main.css']}">
+        <link rel="stylesheet" href="${rawgit}/css/main.css">
         <link rel="stylesheet" href="css/styleguide.css">
       `).appendTo('head');
 
@@ -79,7 +80,7 @@ const prepare = async (done) => {
         `).appendTo('body');
       }
 
-      $(`  <script src="${rawgit}/${toolboxConfig['main.js']}"></script>\n`).appendTo('body');
+      $(`  <script src="${rawgit}/css/main.js"></script>\n`).appendTo('body');
     }))
     .pipe($.rename('index.html'))
     .pipe(gulp.dest(config.dest, {cwd: config.project}));
