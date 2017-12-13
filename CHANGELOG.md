@@ -1,5 +1,8 @@
 # Toolbox Utils - CHANGELOG
 
+*1.3.1* (2017-12-13)
+  - 🐛 fix reader js path (1432279)
+
 *1.3.0* (2017-12-13)
   - ✨ simplify toolb-reader call (0493e13) 
   - ✨ copy also html doc file (c650137) 

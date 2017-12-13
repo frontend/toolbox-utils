@@ -80,7 +80,7 @@ const prepare = async (done) => {
         `).appendTo('body');
       }
 
-      $(`  <script src="${rawgit}/css/main.js"></script>\n`).appendTo('body');
+      $(`  <script src="${rawgit}/js/main.js"></script>\n`).appendTo('body');
     }))
     .pipe($.rename('index.html'))
     .pipe(gulp.dest(config.dest, {cwd: config.project}));
