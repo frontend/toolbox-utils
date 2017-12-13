@@ -1,5 +1,11 @@
 # Toolbox Utils - CHANGELOG
 
+*1.3.0* (2017-12-13)
+  - ✨ simplify toolb-reader call (0493e13) 
+  - ✨ copy also html doc file (c650137) 
+  - ✨ add recursive homemade dir parser for docfiles (126f706) 
+  - ✨ get doc file and pass it to template (91e1eb1)
+
 *1.2.0* (2017-11-03)
   - 🐛 fix version injection (c8187ae) 
   - ✨ get package.json version and assign it to window (fd56a36) 
