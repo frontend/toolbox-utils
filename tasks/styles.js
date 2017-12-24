@@ -1,5 +1,7 @@
 const gulp = require('gulp');
 const gulpLoadPlugins = require('gulp-load-plugins');
+const nodeSass = require('node-sass');
+const gulpSass = require('gulp-sass');
 
 const config = require('./config');
 const {errorAlert} = require('./helpers');
@@ -30,10 +32,12 @@ const dest = {
 const stylesBuild = () => {
   const source = config.dev || config.styleguide ? [src.mainScss, src.styleguideScss] : src.mainScss;
 
+  gulpSass().compiler = nodeSass;
+
   return gulp.src(source, {cwd: config.project})
     .pipe($.plumber({ errorHandler: errorAlert }))
     .pipe($.sourcemaps.init())
-    .pipe($.sass.sync().on('error', $.sass.logError))
+    .pipe(gulpSass.sync().on('error', $.sass.logError))
     .pipe($.postcss([
       require('autoprefixer'),
       require('cssnano'),
