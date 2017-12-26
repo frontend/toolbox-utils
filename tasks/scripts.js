@@ -2,6 +2,8 @@ const gulp = require('gulp');
 const webpack = require('webpack');
 const webpackSettings = require('../webpack.prod.config');
 const errorAlert = require('./helpers');
+const log = require('fancy-log');
+const PluginError = require('plugin-error');
 
 const config = require('./config');
 
@@ -17,8 +19,8 @@ const scripts = (done) => {
   // run webpack
   if (config.production) {
     webpack(webpackSettings, function(err, stats) {
-      if(err) throw new $.util.PluginError('webpack', err);
-      $.util.log('[webpack]', stats.toString({
+      if(err) throw new PluginError('webpack', err);
+      log('[webpack]', stats.toString({
         cached: false,
         colors: true,
       }));

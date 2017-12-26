@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const gulpLoadPlugins = require('gulp-load-plugins');
 const nodeSass = require('node-sass');
 const gulpSass = require('gulp-sass');
+const log = require('fancy-log');
 
 const config = require('./config');
 const {errorAlert} = require('./helpers');

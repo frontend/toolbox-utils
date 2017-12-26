@@ -4,6 +4,7 @@ const config = require('./config');
 const fs = require('fs-extra');
 const dirTree = require('./helpers').dirTree;
 const fetch = require('node-fetch');
+const log = require('fancy-log');
 
 const rawgit = config.reader_path || 'https://rawgit.com/frontend/toolbox-reader/master/build/static';
 const dirs = ['atoms', 'molecules', 'organisms', 'pages'];
@@ -38,7 +39,7 @@ const prepare = async (done) => {
   // Get doc files
   const docFiles = await dirTree(`${config.project}/docs`);
 
-  $.util.log('Using template', $.util.colors.magenta(config.template));
+  log.info(`Using template ${config.template}`);
 
   return gulp.src(config.template, { cwd: config.base_template ? '' : config.project })
     .pipe($.cheerio(($, file) => {
