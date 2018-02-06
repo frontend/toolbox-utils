@@ -1,5 +1,8 @@
 # Toolbox Utils - CHANGELOG
 
+*1.3.1* (2018-02-06)
+  - fix autoprefixer config to prefix CSS Grid layout
+
 *1.3.1* (2017-12-13)
   - 🐛 fix reader js path (1432279)
 
