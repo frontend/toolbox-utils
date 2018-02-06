@@ -1,5 +1,6 @@
 const gulp = require('gulp');
 const gulpLoadPlugins = require('gulp-load-plugins');
+const autoprefixer = require('autoprefixer');
 
 const config = require('./config');
 const {errorAlert} = require('./helpers');
@@ -35,7 +36,7 @@ const stylesBuild = () => {
     .pipe($.sourcemaps.init())
     .pipe($.sass.sync().on('error', $.sass.logError))
     .pipe($.postcss([
-      require('autoprefixer'),
+      autoprefixer({ grid: true }),
       require('cssnano'),
     ]))
     .pipe($.sourcemaps.write('./'))
