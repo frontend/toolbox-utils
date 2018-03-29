@@ -12,11 +12,9 @@ const single = require('./tasks/single');
 const serve = require('./tasks/serve');
 const prepare = require('./tasks/prepare');
 const deploy = require('./tasks/deploy');
+const icons = require('./tasks/icons');
 
 const config = require('./tasks/config');
-
-const iconSystem = config.fontIcons ? './tasks/font-icons' : './tasks/icons';
-const icons = require(iconSystem);
 
 /**
  * Clean

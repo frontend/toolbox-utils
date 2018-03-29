@@ -11,5 +11,7 @@ const args = process.argv[3] ? '--' + process.argv[3] : process.argv[3];
 let env = script === 'build' ? '--production' : '--dev';
 
 const result = spawn(
-  './node_modules/.bin/gulp', [script, '--project', process.cwd(), env, args], { stdio: 'inherit', cwd: './node_modules/toolbox-utils' },
+  './node_modules/.bin/gulp',
+  [script, '--project', process.cwd(), env, args],
+  { stdio: 'inherit', cwd: './node_modules/toolbox-utils' },
 );

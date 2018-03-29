@@ -84,7 +84,7 @@ const serve = () => {
     `${pathTo(config.src)}favicons/**/*`,
     `${pathTo(config.src)}fonts/**/*`,
     `${pathTo(config.src)}**/*.{json,md,twig,yml}`,
-    pathTo('docs/**/*.md')
+    pathTo('docs/**/*.{md,html}')
   ], gulp.series(
     'prepare',
     'copy-assets',

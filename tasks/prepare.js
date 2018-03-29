@@ -70,7 +70,6 @@ const prepare = async (done) => {
 
       if (!config.dev) {
         $(`
-          <script src="js/vendors.bundle.js"></script>
           <script src="js/app.bundle.js"></script>
         `).appendTo('body');
       } else {

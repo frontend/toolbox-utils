@@ -5,6 +5,7 @@ const path    = require('path');
 const config = require('./tasks/config');
 
 module.exports = {
+  mode: 'development',
   entry: {
     app: [
       'webpack/hot/dev-server',
@@ -17,22 +18,26 @@ module.exports = {
     filename: '[name].bundle.js'
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
-        loaders: 'babel-loader',
-        query: {
-          presets: ['babel-preset-es2015'],
-          plugins: [
-            'babel-plugin-transform-es2015-spread',
-            'babel-plugin-transform-object-rest-spread'
-          ]
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['babel-preset-es2015'],
+            plugins: [
+              'babel-plugin-transform-es2015-spread',
+              'babel-plugin-transform-object-rest-spread'
+            ]
+          }
         }
       },
       {
         test: /\.json$/,
-        loader: 'json'
+        use: {
+          loader: 'json'
+        }
       }
     ]
   },
@@ -45,11 +50,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendors',
-      minChunks: 2,
-      filename: 'vendors.bundle.js'
-    }),
     new webpack.HotModuleReplacementPlugin()
   ]
 };
