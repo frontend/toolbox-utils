@@ -7,6 +7,7 @@ const {errorAlert} = require('./helpers');
 
 const $ = gulpLoadPlugins();
 
+// Get scss bundle config and create bundles and names array
 const hasBundleConfig = config.bundles !== undefined && config.bundles.scss !== undefined;
 const ScssBundle = hasBundleConfig ? config.bundles.scss.map((item) => {
   return `${config.project}/${config.src}${item.src}`;
@@ -47,6 +48,7 @@ const stylesBuild = () => {
       require('cssnano'),
     ]))
     .pipe($.rename((path) => {
+      // assign bundle's name
       if (ScssNames[i]) path.basename= ScssNames[i];
       i += 1;
     }))

@@ -11,6 +11,7 @@ const styles = require('./styles');
 const scripts = require('./scripts');
 const icons = require('./icons');
 
+// Get javascript bundle config, format and assign it to Webpack entry
 const hasBundleConfig = config.bundles !== undefined && config.bundles.js !== undefined;
 let JSBundle = [...webpackSettings.entry.app, `${config.project}/${config.src}components/base.js`];
 if (hasBundleConfig) {

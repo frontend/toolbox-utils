@@ -10,15 +10,18 @@ const rawgit = config.reader_path || 'https://rawgit.com/frontend/toolbox-reader
 
 
 const prepare = async (done) => {
+  // Get local colors and data
   const colors = await fs.readJsonSync(`${config.project}/${config.src}config/colors.json`);
   const data = await fs.readJsonSync(`${config.project}/${config.src}config/data.json`);
 
+  // Set components types from components/ directory structure
   const types = await dirTree(`${config.project}/${config.src}components`);
   const dirs = Object.keys(types).slice(1);
 
   const components = {};
   const ignoreFiles = ['.gitkeep', '.DS_Store', 'index.md'];
 
+  // Create component collection object
   dirs.forEach((dir) => {
     let files = null;
     try {
