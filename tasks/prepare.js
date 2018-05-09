@@ -4,6 +4,7 @@ const config = require('./config');
 const fs = require('fs-extra');
 const dirTree = require('./helpers').dirTree;
 const fetch = require('node-fetch');
+const pkg = require('./../package.json');
 
 const rawgit = config.reader_path || 'https://rawgit.com/frontend/toolbox-reader/master/build/static';
 const dirs = ['atoms', 'molecules', 'organisms', 'pages'];
@@ -51,6 +52,7 @@ const prepare = async (done) => {
           window.data = ${JSON.stringify(data)};
           window.colors = ${JSON.stringify(colors)};
           window.version = "${config.version}";
+          window.builder = "${pkg.version}";
           ${ config.theme ? `window.theme = ${JSON.stringify(config.theme)};` : '' }
         </script>
         <link rel="stylesheet" href="css/base.css">
