@@ -11,6 +11,16 @@ const styles = require('./styles');
 const scripts = require('./scripts');
 const icons = require('./icons');
 
+const hasBundleConfig = config.bundles !== undefined && config.bundles.js !== undefined;
+let JSBundle = [...webpackSettings.entry.app, `${config.project}/${config.src}components/base.js`];
+if (hasBundleConfig) {
+  config.bundles.js.reduce((acc, val) => {
+    acc[val.name] = `${config.project}/${config.src}${val.src}`;
+    return acc;
+  }, webpackSettings.entry.app)
+}
+webpackSettings.entry.app = JSBundle;
+
 const bundler = webpack(webpackSettings);
 
 /**

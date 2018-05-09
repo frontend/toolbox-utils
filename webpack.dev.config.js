@@ -10,7 +10,6 @@ module.exports = {
     app: [
       'webpack/hot/dev-server',
       'webpack-hot-middleware/client',
-      `${config.project}/${config.src}components/base.js`
     ]
   },
   output: {
