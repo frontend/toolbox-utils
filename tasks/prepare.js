@@ -7,11 +7,14 @@ const fetch = require('node-fetch');
 const pkg = require('./../package.json');
 
 const rawgit = config.reader_path || 'https://rawgit.com/frontend/toolbox-reader/master/build/static';
-const dirs = ['atoms', 'molecules', 'organisms', 'pages'];
+
 
 const prepare = async (done) => {
   const colors = await fs.readJsonSync(`${config.project}/${config.src}config/colors.json`);
   const data = await fs.readJsonSync(`${config.project}/${config.src}config/data.json`);
+
+  const types = await dirTree(`${config.project}/${config.src}components`);
+  const dirs = Object.keys(types).slice(1);
 
   const components = {};
   const ignoreFiles = ['.gitkeep', '.DS_Store', 'index.md'];
