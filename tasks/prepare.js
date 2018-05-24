@@ -68,13 +68,13 @@ const prepare = async (done) => {
           window.builder = "${pkg.version}";
           ${ config.theme ? `window.theme = ${JSON.stringify(config.theme)};` : '' }
         </script>
+        <link rel="stylesheet" href="${rawgit}/css/main.css">
         ${ cssBundles
           ? config.bundles.scss
             .map(b =>  `<link rel="stylesheet" href="css/${b.name}.css">`)
             .join('\n')
           : '<link rel="stylesheet" href="css/base.css">'
         }
-        <link rel="stylesheet" href="${rawgit}/css/main.css">
         <link rel="stylesheet" href="css/styleguide.css">
       `).appendTo('head');
 
