@@ -49,14 +49,14 @@ const copyPathsDev = [{
   dest: '/docs',
 }];
 
+if (config.dev || config.styleguide) {
+  copyPaths.push(...copyPathsDev);
+}
+
 /**
  * Copy stuff
  */
 const copyAssets = () => {
-  if (config.dev || config.styleguide) {
-    copyPaths.push(...copyPathsDev);
-  }
-
   return merge(copyPaths.map((item) => {
     const baseDir = item.root ? '' : config.src;
     return gulp.src(baseDir + item.src, {cwd: config.project})
