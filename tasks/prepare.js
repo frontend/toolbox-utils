@@ -8,7 +8,8 @@ const yaml = require('yamljs');
 const pkg = require('./../package.json');
 
 const rawgit = config.reader_path || 'https://rawgit.com/frontend/toolbox-reader/master/build/static';
-
+const cssBundles = config.bundles !== undefined && config.bundles.scss !== undefined;
+const jsBundles = config.bundles !== undefined && config.bundles.js !== undefined;
 
 const prepare = async (done) => {
   // Get local colors and data
@@ -67,7 +68,12 @@ const prepare = async (done) => {
           window.builder = "${pkg.version}";
           ${ config.theme ? `window.theme = ${JSON.stringify(config.theme)};` : '' }
         </script>
-        <link rel="stylesheet" href="css/base.css">
+        ${ cssBundles
+          ? config.bundles.scss
+            .map(b =>  `<link rel="stylesheet" href="css/${b.name}.css">`)
+            .join('\n')
+          : '<link rel="stylesheet" href="css/base.css">'
+        }
         <link rel="stylesheet" href="${rawgit}/css/main.css">
         <link rel="stylesheet" href="css/styleguide.css">
       `).appendTo('head');
@@ -82,14 +88,17 @@ const prepare = async (done) => {
         $(`  <script src="js/vendors.min.js"></script>\n`).appendTo('body');
       }
 
-      if (!config.dev) {
-        $(`
-          <script src="js/app.bundle.js"></script>
-        `).appendTo('body');
+      if (config.dev) {
+        $('<script src="app.bundle.js"></script>').appendTo('body');
       } else {
         $(`
-          <script src="vendors.bundle.js"></script>
-          <script src="app.bundle.js"></script>
+          <script src="js/vendors.bundle.js"></script>
+          ${ jsBundles
+            ? config.bundles.js
+              .map(b =>  `<script src="js/${b.name}.bundle.js"></script>`)
+              .join('\n')
+            : '<script src="js/app.bundle.js"></script>'
+          }
         `).appendTo('body');
       }
 
