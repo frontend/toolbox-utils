@@ -4,6 +4,7 @@ const config = require('./config');
 const fs = require('fs-extra');
 const dirTree = require('./helpers').dirTree;
 const fetch = require('node-fetch');
+const yaml = require('yamljs');
 const pkg = require('./../package.json');
 
 const rawgit = config.reader_path || 'https://rawgit.com/frontend/toolbox-reader/master/build/static';
@@ -38,8 +39,13 @@ const prepare = async (done) => {
       }
     });
 
+    const collection = files.map((file) => {
+      const filePath = `${config.project}/${config.src}components/${dir}/${file}/${file}.yml`;
+      return yaml.load(filePath);
+    });
+
     components[dir] = [];
-    files.forEach(file => components[dir].push(file));
+    components[dir].push(...collection);
   });
 
   // Get doc files
