@@ -1,5 +1,20 @@
 # Toolbox Utils - CHANGELOG
 
+*1.4.0* (2018-06-15)
+
+  - 🔧 add CustomEvent in js polyfills (c6881ca) 
+  - Update polyfill for IE11 bug. (09e3aef) 
+  - 💄 safer CSS (94a19e3) 
+  - 🐛 fix prepare css/js inclusion (c7e3c2b) 
+  - ⚡️ pre-construct components meta for quicker reader render (51690b3) 
+  - ⚡️ resolve recuring perf issue (5304bb1) 
+  - 📝 add comments (d851af4) 
+  - ✨ dynamic components types (580fc0a) 
+  - ⬆️ re-upgrade all depencies like a guedin (3954461) 
+  - ✨ add update notification (ae8158e) 
+  - ✨ multiple JS/SCSS possible using toolbox.json config (see doc) (227120e) 
+  - ⬆️ Hard upgrade deps, upgrade to Webpack 4, remove fonticons and readd gulp-uglify for JS vendors (a01c6ba)
+
 *1.3.1* (2018-02-06)
   - fix autoprefixer config to prefix CSS Grid layout
 
