@@ -5,6 +5,7 @@ const path    = require('path');
 const config = require('./tasks/config');
 
 module.exports = {
+  mode: 'production',
   entry: {
     app: `${config.project}/${config.src}components/base.js`
   },
@@ -12,23 +13,38 @@ module.exports = {
     path: `${config.project}/${config.dest}js`,
     filename: '[name].bundle.js'
   },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
+  },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /(node_modules|bower_components)/,
-        loaders: 'babel-loader',
-        query: {
-          presets: ['babel-preset-es2015'],
-          plugins: [
-            'babel-plugin-transform-es2015-spread',
-            'babel-plugin-transform-object-rest-spread'
-          ]
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['babel-preset-es2015'],
+            plugins: [
+              'babel-plugin-transform-es2015-spread',
+              'babel-plugin-transform-object-rest-spread'
+            ]
+          }
         }
       },
       {
         test: /\.json$/,
-        loader: 'json'
+        use: {
+          loader: 'json'
+        }
       }
     ]
   },
@@ -44,11 +60,10 @@ module.exports = {
     modules: ['node_modules'],
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendors',
-      minChunks: 2,
-      filename: 'vendors.bundle.js'
-    }),
-    new webpack.optimize.UglifyJsPlugin()
+    // ensure that we get a production build of any dependencies
+    // this is primarily for React, where this removes 179KB from the bundle
+    new webpack.DefinePlugin({
+        'process.env.NODE_ENV': '"production"'
+    })
   ]
 };
