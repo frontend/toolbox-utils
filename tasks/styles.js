@@ -7,11 +7,18 @@ const {errorAlert} = require('./helpers');
 
 const $ = gulpLoadPlugins();
 
+// Get scss bundle config and create bundles and names array
+const hasBundleConfig = config.bundles !== undefined && config.bundles.scss !== undefined;
+const ScssBundle = hasBundleConfig ? config.bundles.scss.map((item) => {
+  return `${config.project}/${config.src}${item.src}`;
+}) : null;
+const ScssNames = hasBundleConfig ? config.bundles.scss.map(item => item.name) : null;
+
 /**
  * Config
  */
 const src = {
-  mainScss: `${config.src}components/base.scss`,
+  mainScss: hasBundleConfig ? ScssBundle : [`${config.src}components/base.scss`],
   styleguideScss: `${config.src}config/styleguide.scss`,
   scss: `${config.src}components/**/*.scss`,
 };
@@ -29,7 +36,8 @@ const dest = {
  * - CSSNano minifies the output.
  */
 const stylesBuild = () => {
-  const source = config.dev || config.styleguide ? [src.mainScss, src.styleguideScss] : src.mainScss;
+  const source = config.dev || config.styleguide ? [...src.mainScss, src.styleguideScss] : src.mainScss;
+  let i = 0;
 
   return gulp.src(source, {cwd: config.project})
     .pipe($.plumber({ errorHandler: errorAlert }))
@@ -39,7 +47,12 @@ const stylesBuild = () => {
       autoprefixer({ grid: true }),
       require('cssnano'),
     ]))
-    .pipe($.sourcemaps.write('./'))
+    .pipe($.rename((path) => {
+      // assign bundle's name
+      if (ScssNames[i]) path.basename= ScssNames[i];
+      i += 1;
+    }))
+    .pipe(config.production ? $.util.noop() : $.sourcemaps.write('./'))
     .pipe(gulp.dest(dest.styles, {cwd: config.project}));
 };
 

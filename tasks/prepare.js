@@ -4,17 +4,26 @@ const config = require('./config');
 const fs = require('fs-extra');
 const dirTree = require('./helpers').dirTree;
 const fetch = require('node-fetch');
+const yaml = require('yamljs');
+const pkg = require('./../package.json');
 
 const rawgit = config.reader_path || 'https://rawgit.com/frontend/toolbox-reader/master/build/static';
-const dirs = ['atoms', 'molecules', 'organisms', 'pages'];
+const cssBundles = config.bundles !== undefined && config.bundles.scss !== undefined;
+const jsBundles = config.bundles !== undefined && config.bundles.js !== undefined;
 
 const prepare = async (done) => {
+  // Get local colors and data
   const colors = await fs.readJsonSync(`${config.project}/${config.src}config/colors.json`);
   const data = await fs.readJsonSync(`${config.project}/${config.src}config/data.json`);
+
+  // Set components types from components/ directory structure
+  const types = await dirTree(`${config.project}/${config.src}components`);
+  const dirs = Object.keys(types).slice(1);
 
   const components = {};
   const ignoreFiles = ['.gitkeep', '.DS_Store', 'index.md'];
 
+  // Create component collection object
   dirs.forEach((dir) => {
     let files = null;
     try {
@@ -31,8 +40,13 @@ const prepare = async (done) => {
       }
     });
 
+    const collection = files.map((file) => {
+      const filePath = `${config.project}/${config.src}components/${dir}/${file}/${file}.yml`;
+      return yaml.load(filePath);
+    });
+
     components[dir] = [];
-    files.forEach(file => components[dir].push(file));
+    components[dir].push(...collection);
   });
 
   // Get doc files
@@ -51,10 +65,16 @@ const prepare = async (done) => {
           window.data = ${JSON.stringify(data)};
           window.colors = ${JSON.stringify(colors)};
           window.version = "${config.version}";
+          window.builder = "${pkg.version}";
           ${ config.theme ? `window.theme = ${JSON.stringify(config.theme)};` : '' }
         </script>
-        <link rel="stylesheet" href="css/base.css">
         <link rel="stylesheet" href="${rawgit}/css/main.css">
+        ${ cssBundles
+          ? config.bundles.scss
+            .map(b =>  `<link rel="stylesheet" href="css/${b.name}.css">`)
+            .join('\n')
+          : '<link rel="stylesheet" href="css/base.css">'
+        }
         <link rel="stylesheet" href="css/styleguide.css">
       `).appendTo('head');
 
@@ -68,15 +88,17 @@ const prepare = async (done) => {
         $(`  <script src="js/vendors.min.js"></script>\n`).appendTo('body');
       }
 
-      if (!config.dev) {
-        $(`
-          <script src="js/vendors.bundle.js"></script>
-          <script src="js/app.bundle.js"></script>
-        `).appendTo('body');
+      if (config.dev) {
+        $('<script src="app.bundle.js"></script>').appendTo('body');
       } else {
         $(`
-          <script src="vendors.bundle.js"></script>
-          <script src="app.bundle.js"></script>
+          <script src="js/vendors.bundle.js"></script>
+          ${ jsBundles
+            ? config.bundles.js
+              .map(b =>  `<script src="js/${b.name}.bundle.js"></script>`)
+              .join('\n')
+            : '<script src="js/app.bundle.js"></script>'
+          }
         `).appendTo('body');
       }
 
