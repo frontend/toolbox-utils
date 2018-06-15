@@ -16,7 +16,7 @@ latestVersion('toolbox-utils').then(version => {
     console.log(`
 ${chalk.white.bgRed.bold(` ${' '.repeat(msg.length)} \n ${msg} \n${' '.repeat(msg.length)}  `)}
 
-To update you beloved builder, do :
+To update your beloved builder, do :
 $ ${chalk.green('yarn upgrade toolbox-utils')} (recommended)
 or
 $ ${chalk.green('npm update toolbox-utils')}
