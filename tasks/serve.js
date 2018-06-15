@@ -11,6 +11,17 @@ const styles = require('./styles');
 const scripts = require('./scripts');
 const icons = require('./icons');
 
+// Get javascript bundle config, format and assign it to Webpack entry
+const hasBundleConfig = config.bundles !== undefined && config.bundles.js !== undefined;
+let JSBundle = [...webpackSettings.entry.app, `${config.project}/${config.src}components/base.js`];
+if (hasBundleConfig) {
+  config.bundles.js.reduce((acc, val) => {
+    acc[val.name] = `${config.project}/${config.src}${val.src}`;
+    return acc;
+  }, webpackSettings.entry.app)
+}
+webpackSettings.entry.app = JSBundle;
+
 const bundler = webpack(webpackSettings);
 
 /**
@@ -84,7 +95,7 @@ const serve = () => {
     `${pathTo(config.src)}favicons/**/*`,
     `${pathTo(config.src)}fonts/**/*`,
     `${pathTo(config.src)}**/*.{json,md,twig,yml}`,
-    pathTo('docs/**/*.md')
+    pathTo('docs/**/*.{md,html}')
   ], gulp.series(
     'prepare',
     'copy-assets',
