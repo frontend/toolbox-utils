@@ -49,7 +49,7 @@ const stylesBuild = () => {
     ]))
     .pipe($.rename((path) => {
       // assign bundle's name
-      if (ScssNames[i]) path.basename= ScssNames[i];
+      if (ScssNames && ScssNames[i]) path.basename= ScssNames[i];
       i += 1;
     }))
     .pipe(config.production ? $.util.noop() : $.sourcemaps.write('./'))
