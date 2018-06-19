@@ -1,4 +1,11 @@
+*1.4.1* (2018-06-19)
+
+
 # Toolbox Utils - CHANGELOG
+
+*1.4.1* (2018-06-19)
+
+  - 🔧 move gulp-uglify in normal dep (23e2167)
 
 *1.4.0* (2018-06-15)
 
