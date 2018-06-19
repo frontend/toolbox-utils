@@ -3,6 +3,10 @@
 
 # Toolbox Utils - CHANGELOG
 
+*1.4.2* (2018-06-19)
+
+  - Fix styles bugs
+
 *1.4.1* (2018-06-19)
 
   - 🔧 move gulp-uglify in normal dep (23e2167)
