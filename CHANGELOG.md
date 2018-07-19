@@ -1,5 +1,8 @@
 # Toolbox Utils - CHANGELOG
 
+*1.4.5* (2018-07-19)
+  - 🐛 fix broken components dirtree (b3ad176)
+
 *1.4.4* (2018-07-19)
   - 🔨 simplify docs tree preparation (6b2b4ec)
 
