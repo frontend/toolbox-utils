@@ -1,5 +1,8 @@
 # Toolbox Utils - CHANGELOG
 
+*1.4.4* (2018-07-19)
+  - 🔨 simplify docs tree preparation (6b2b4ec)
+
 *1.4.3* (2018-07-19)
   - ✨ add documentation custom structure (6e0ef93)
 
