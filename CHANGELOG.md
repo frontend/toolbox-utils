@@ -1,7 +1,7 @@
-*1.4.1* (2018-06-19)
-
-
 # Toolbox Utils - CHANGELOG
+
+*1.4.3* (2018-07-19)
+  - ✨ add documentation custom structure (6e0ef93)
 
 *1.4.2* (2018-06-19)
 
