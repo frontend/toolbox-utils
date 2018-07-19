@@ -24,24 +24,22 @@ module.exports.projectPath = config.project;
 
 const treeMaker = (dir) => {
   return new Promise((resolve, reject) => {
-    const children = {};
+    const children = [];
 
     fs.readdir(dir, async (err, list) => {
       if (err) reject();
-      children.f = [];
 
       for (let child of list) {
         const childPath = `${dir}/${child}`;
         const isDir = fs.lstatSync(childPath).isDirectory();
 
-
         if (isDir) {
           const subtree = await treeMaker(childPath);
-          children[child] = subtree;
+          children.push({ [child]: subtree });
         } else {
           const valideExts = ['.md', '.html'];
           const fileExt = path.extname(child);
-          if (valideExts.includes(fileExt)) children.f.push(child);
+          if (valideExts.includes(fileExt)) children.push(child);
         }
       };
 

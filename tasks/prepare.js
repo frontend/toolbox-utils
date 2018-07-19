@@ -53,24 +53,7 @@ const prepare = async (done) => {
   let docFiles = {};
   const summaryPath = `${config.project}/docs/summary.yml`;
   if (fs.pathExistsSync(summaryPath)) {
-    // const summary = fs.readFileSync(summaryPath, 'utf8');
-    const summary = yaml.load(summaryPath);
-    const formatSummary = array => {
-      const output = {};
-      output.f = [];
-
-      array.forEach(item => {
-        if (typeof item === 'string') output.f.push(item);
-        if (typeof item === 'object') {
-          const key = Object.keys(item)[0];
-          output[key] = formatSummary(item[key]);
-        }
-      });
-
-      return output;
-    };
-
-    docFiles = formatSummary(summary);
+    docFiles = yaml.load(summaryPath);
   } else {
     docFiles = await dirTree(`${config.project}/docs`);
   }
