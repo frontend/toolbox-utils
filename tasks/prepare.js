@@ -50,7 +50,30 @@ const prepare = async (done) => {
   });
 
   // Get doc files
-  const docFiles = await dirTree(`${config.project}/docs`);
+  let docFiles = {};
+  const summaryPath = `${config.project}/docs/summary.yml`;
+  if (fs.pathExistsSync(summaryPath)) {
+    // const summary = fs.readFileSync(summaryPath, 'utf8');
+    const summary = yaml.load(summaryPath);
+    const formatSummary = array => {
+      const output = {};
+      output.f = [];
+
+      array.forEach(item => {
+        if (typeof item === 'string') output.f.push(item);
+        if (typeof item === 'object') {
+          const key = Object.keys(item)[0];
+          output[key] = formatSummary(item[key]);
+        }
+      });
+
+      return output;
+    };
+
+    docFiles = formatSummary(summary);
+  } else {
+    docFiles = await dirTree(`${config.project}/docs`);
+  }
 
   $.util.log('Using template', $.util.colors.magenta(config.template));
 
