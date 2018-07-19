@@ -18,7 +18,7 @@ const prepare = async (done) => {
 
   // Set components types from components/ directory structure
   const types = await dirTree(`${config.project}/${config.src}components`);
-  const dirs = Object.keys(types).slice(1);
+  const dirs = types.map(type => Object.keys(type)[0]);
 
   const components = {};
   const ignoreFiles = ['.gitkeep', '.DS_Store', 'index.md'];
