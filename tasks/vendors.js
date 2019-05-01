@@ -11,7 +11,15 @@ const cssVendors = (done) => {
   if (config.vendors.css.length > 0) {
     return gulp.src(config.vendors.css, {cwd: config.project})
       .pipe($.concat('vendors.min.css'))
-      .pipe($.cssnano())
+      .pipe($.postcss([
+        require('cssnano')({
+          reduceIdents: {
+            keyframes: false,
+            gridTemplate: false,
+            counter: false,
+          },
+        }),
+      ]))
       .pipe($.size({title: 'CSS VENDORS', showFiles: true}))
       .pipe(gulp.dest(`${config.dest}css`, {cwd: config.project}));
   }

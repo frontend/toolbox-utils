@@ -46,9 +46,11 @@ const stylesBuild = () => {
     .pipe($.postcss([
       autoprefixer({ grid: true }),
       require('cssnano')({
-        preset: ['default', {
-          reduceIdents: false,
-        }],
+        reduceIdents: {
+          keyframes: false,
+          gridTemplate: false,
+          counter: false,
+        },
       }),
     ]))
     .pipe($.rename((path) => {
