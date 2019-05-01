@@ -45,7 +45,11 @@ const stylesBuild = () => {
     .pipe($.sass.sync().on('error', $.sass.logError))
     .pipe($.postcss([
       autoprefixer({ grid: true }),
-      require('cssnano'),
+      require('cssnano')({
+        preset: ['default', {
+          reduceIdents: false,
+        }],
+      }),
     ]))
     .pipe($.rename((path) => {
       // assign bundle's name
