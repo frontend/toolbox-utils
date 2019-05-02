@@ -75,6 +75,7 @@ const prepare = async (done) => {
           ${ config.theme ? `window.theme = ${JSON.stringify(config.theme)};` : '' }
         </script>
         <link rel="stylesheet" href="${rawgit}/css/main.css">
+        ${config.vendors.css ? '<link rel="stylesheet" href="css/vendors.min.css">' : ''}
         ${ cssBundles
           ? config.bundles.scss
             .map(b =>  `<link rel="stylesheet" href="css/${b.name}.css">`)
@@ -83,12 +84,6 @@ const prepare = async (done) => {
         }
         <link rel="stylesheet" href="css/styleguide.css">
       `).appendTo('head');
-
-      if (config.vendors.css) {
-        $(`
-          <link rel="stylesheet" href="css/vendors.min.css">
-        `).appendTo('head');
-      }
 
       if (config.vendors.js) {
         $(`  <script src="js/vendors.min.js"></script>\n`).appendTo('body');
