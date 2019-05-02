@@ -59,7 +59,7 @@ const prepare = async (done) => {
     docFiles = await dirTree(`${config.project}/docs`);
   }
 
-  log('Using template');
+  log.info(`Using template ${config.template}`);
 
   return gulp.src(config.template, { cwd: config.base_template ? '' : config.project })
     .pipe($.cheerio(($, file) => {
