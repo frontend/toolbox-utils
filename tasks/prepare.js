@@ -1,4 +1,5 @@
 const gulp = require('gulp');
+const axios = require('axios');
 const log = require('fancy-log');
 const $ = require('gulp-load-plugins')();
 const config = require('./config');
@@ -8,11 +9,17 @@ const fetch = require('node-fetch');
 const yaml = require('yamljs');
 const pkg = require('./../package.json');
 
-const rawgit = config.reader_path || 'https://rawgit.com/frontend/toolbox-reader/master/build/static';
 const cssBundles = config.bundles !== undefined && config.bundles.scss !== undefined;
 const jsBundles = config.bundles !== undefined && config.bundles.js !== undefined;
 
 const prepare = async (done) => {
+  const cdn = config.reader_path || await axios.get('https://cdn.jsdelivr.net/gh/frontend/toolbox-reader/package.json')
+    .then(res => {
+      const version = res.data.version.split('.').splice(0, 2).join('.');
+      return `https://cdn.jsdelivr.net/gh/frontend/toolbox-reader@${version}/build/static`;
+    })
+    .catch(err => log.error(err));
+
   // Get local colors and data
   const colors = await fs.readJsonSync(`${config.project}/${config.src}config/colors.json`);
   const data = await fs.readJsonSync(`${config.project}/${config.src}config/data.json`);
@@ -75,7 +82,7 @@ const prepare = async (done) => {
           window.builder = "${pkg.version}";
           ${ config.theme ? `window.theme = ${JSON.stringify(config.theme)};` : '' }
         </script>
-        <link rel="stylesheet" href="${rawgit}/css/main.css">
+        <link rel="stylesheet" href="${cdn}/css/main.css">
         ${config.vendors.css ? '<link rel="stylesheet" href="css/vendors.min.css">' : ''}
         ${ cssBundles
           ? config.bundles.scss
@@ -104,7 +111,7 @@ const prepare = async (done) => {
         `).appendTo('body');
       }
 
-      $(`  <script src="${rawgit}/js/main.js"></script>\n`).appendTo('body');
+      $(`  <script src="${cdn}/js/main.js"></script>\n`).appendTo('body');
     }))
     .pipe($.rename('index.html'))
     .pipe(gulp.dest(config.dest, {cwd: config.project}));
