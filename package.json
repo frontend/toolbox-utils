@@ -56,7 +56,6 @@
     "gulp-concat": "^2.6.1",
     "gulp-consolidate": "^0.2.0",
     "gulp-eslint": "^5.0.0",
-    "gulp-gh-pages": "^0.5.4",
     "gulp-load-plugins": "^1.5.0",
     "gulp-notify": "^3.2.0",
     "gulp-plumber": "^1.2.1",
