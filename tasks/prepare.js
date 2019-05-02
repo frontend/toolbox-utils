@@ -1,4 +1,5 @@
 const gulp = require('gulp');
+const log = require('fancy-log');
 const $ = require('gulp-load-plugins')();
 const config = require('./config');
 const fs = require('fs-extra');
@@ -58,7 +59,7 @@ const prepare = async (done) => {
     docFiles = await dirTree(`${config.project}/docs`);
   }
 
-  $.util.log('Using template', $.util.colors.magenta(config.template));
+  log('Using template');
 
   return gulp.src(config.template, { cwd: config.base_template ? '' : config.project })
     .pipe($.cheerio(($, file) => {
