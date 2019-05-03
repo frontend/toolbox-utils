@@ -32,6 +32,10 @@
       "import/no-unresolved": 0
     }
   },
+  "scripts": {
+    "postinstall": "ln -s \"$(pwd)/index.js\" \"$(pwd)/node_modules/.bin/toolbox\" && ln -s \"$(pwd)\" \"$(pwd)/node_modules/toolbox-utils\"",
+    "postuninstall": "npm run postinstall"
+  },
   "dependencies": {
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
@@ -46,6 +50,7 @@
     "cross-spawn": "^6.0.5",
     "cssnano": "^4.1.10",
     "del": "^4.1.1",
+    "download": "^7.1.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.17.2",

@@ -1,5 +1,7 @@
+const { homedir } = require('os');
 const gulp = require('gulp');
 const axios = require('axios');
+const download = require('download');
 const log = require('fancy-log');
 const $ = require('gulp-load-plugins')();
 const config = require('./config');
@@ -13,12 +15,42 @@ const cssBundles = config.bundles !== undefined && config.bundles.scss !== undef
 const jsBundles = config.bundles !== undefined && config.bundles.js !== undefined;
 
 const prepare = async (done) => {
-  const cdn = config.reader_path || await axios.get('https://cdn.jsdelivr.net/gh/frontend/toolbox-reader/package.json')
-    .then(res => {
-      const version = res.data.version.split('.').splice(0, 2).join('.');
-      return `https://cdn.jsdelivr.net/gh/frontend/toolbox-reader@${version}/build/static`;
-    })
-    .catch(err => log.error(err));
+  // Check if user is online
+  const isOnline = await axios
+    .get('https://google.com', { timeout: 3000 })
+    .then(res => true)
+    .catch(err => false);
+
+  // Define cdn path
+  const localCdn = `${homedir()}/.toolbox`;
+  let cdn;
+  if (config.reader_path) {
+    cdn = config.reader_path;
+  } else {
+    if (isOnline) {
+      cdn = await axios
+        .get('https://cdn.jsdelivr.net/gh/frontend/toolbox-reader/package.json')
+        .then(res => {
+          const minor = res.data.version.split('.').splice(0, 2).join('.');
+          return `https://cdn.jsdelivr.net/gh/frontend/toolbox-reader@${minor}/build/static`;
+        })
+        .catch(err => log.error(err));
+
+      // Download Toolbox Reader bundles for future offline usage
+      download(`${cdn}/css/main.css`, `${localCdn}/`);
+      download(`${cdn}/js/main.js`, `${localCdn}/`);
+    } else {
+      // Retrieve local Toolbox Reader bundles
+      cdn = 'toolbox';
+      fs.pathExists(`${localCdn}/main.css`, (err, exists) => {
+        if (err || !exists) log.error('You don\'t have any local Toolbox Reader bundles to use... Please connecte yourlsef before retrying.')
+        const copyToDir = `${config.project}/${config.dest}toolbox`;
+        fs.ensureDirSync(copyToDir)
+        fs.copy(`${localCdn}/main.css`, `${copyToDir}/main.css`);
+        fs.copy(`${localCdn}/main.js`, `${copyToDir}/main.js`);
+      })
+    }
+  }
 
   // Get local colors and data
   const colors = await fs.readJsonSync(`${config.project}/${config.src}config/colors.json`);
@@ -72,7 +104,6 @@ const prepare = async (done) => {
     .pipe($.cheerio(($, file) => {
 
       $(`
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twig.js/0.8.9/twig.min.js"></script>
         <script type="text/javascript">
           window.sources = ${JSON.stringify(components)};
           window.docs = ${JSON.stringify(docFiles)};
@@ -82,7 +113,7 @@ const prepare = async (done) => {
           window.builder = "${pkg.version}";
           ${ config.theme ? `window.theme = ${JSON.stringify(config.theme)};` : '' }
         </script>
-        <link rel="stylesheet" href="${cdn}/css/main.css">
+        <link rel="stylesheet" href="${cdn}${isOnline ? '/css' : ''}/main.css">
         ${config.vendors.css ? '<link rel="stylesheet" href="css/vendors.min.css">' : ''}
         ${ cssBundles
           ? config.bundles.scss
@@ -111,7 +142,7 @@ const prepare = async (done) => {
         `).appendTo('body');
       }
 
-      $(`  <script src="${cdn}/js/main.js"></script>\n`).appendTo('body');
+      $(`  <script src="${cdn}${isOnline ? '/js' : ''}/main.js"></script>\n`).appendTo('body');
     }))
     .pipe($.rename('index.html'))
     .pipe(gulp.dest(config.dest, {cwd: config.project}));
