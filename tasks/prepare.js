@@ -113,7 +113,7 @@ const prepare = async (done) => {
           window.builder = "${pkg.version}";
           ${ config.theme ? `window.theme = ${JSON.stringify(config.theme)};` : '' }
         </script>
-        <link rel="stylesheet" href="${cdn}${isOnline ? '/css' : ''}/main.css">
+        <link rel="stylesheet" href="${cdn}${isOnline || config.reader_path ? '/css' : ''}/main.css">
         ${config.vendors.css ? '<link rel="stylesheet" href="css/vendors.min.css">' : ''}
         ${ cssBundles
           ? config.bundles.scss
@@ -142,7 +142,7 @@ const prepare = async (done) => {
         `).appendTo('body');
       }
 
-      $(`  <script src="${cdn}${isOnline ? '/js' : ''}/main.js"></script>\n`).appendTo('body');
+      $(`  <script src="${cdn}${isOnline || config.reader_path ? '/js' : ''}/main.js"></script>\n`).appendTo('body');
     }))
     .pipe($.rename('index.html'))
     .pipe(gulp.dest(config.dest, {cwd: config.project}));
