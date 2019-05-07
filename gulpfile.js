@@ -11,7 +11,6 @@ const vendors = require('./tasks/vendors');
 const single = require('./tasks/single');
 const serve = require('./tasks/serve');
 const prepare = require('./tasks/prepare');
-const deploy = require('./tasks/deploy');
 const icons = require('./tasks/icons');
 
 const config = require('./tasks/config');
@@ -92,7 +91,6 @@ const build = gulp.series(
 
 gulp.task('serve', gulp.series(build, serve));
 gulp.task('prepare', prepare);
-gulp.task('deploy', deploy);
 gulp.task('build', build);
 gulp.task('clean', clean);
 gulp.task('copy-assets', copyAssets);
@@ -101,5 +99,4 @@ gulp.task('scripts', scripts);
 gulp.task('vendors', vendors);
 gulp.task('icons', icons);
 gulp.task('single', gulp.series(single));
-gulp.task('deploy', deploy);
 gulp.task('default', build);
