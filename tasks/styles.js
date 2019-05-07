@@ -58,7 +58,7 @@ const stylesBuild = () => {
       if (ScssNames && ScssNames[i]) path.basename= ScssNames[i];
       i += 1;
     }))
-    .pipe(config.production ? $.util.noop() : $.sourcemaps.write('./'))
+    .pipe(config.production ? $.noop() : $.sourcemaps.write('./'))
     .pipe(gulp.dest(dest.styles, {cwd: config.project}));
 };
 
