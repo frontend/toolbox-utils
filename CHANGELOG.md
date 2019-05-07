@@ -1,5 +1,15 @@
 # Toolbox Utils - CHANGELOG
 
+*1.5.0* (2019-05-07)
+  - ✨ add seemless offline support (6767f7a) 
+  - ✨ add future proof reader CDN (see you in a year XD) (8721b4a) 
+  - 💄 use nicer template log (16bbcb7) 
+  - 🔨 drop gulp-utils for fancy-log #24 (5774132) 
+  - 🔨 move vendors.min.css before projects CSSs for a safer future #32 (ff573d7) 
+  - 🔨 replace deploy Gulp task by a stronger shell script #21 (2541b2d) 
+  - ⬆️ update all dependencies (e0f09fc) 
+  - 🔧 stop renaming keyframes, counter and gridTemplate (23dfe4c)
+
 *1.4.5* (2018-07-19)
   - 🐛 fix broken components dirtree (b3ad176)
 
