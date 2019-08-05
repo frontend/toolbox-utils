@@ -7,7 +7,6 @@ const $ = require('gulp-load-plugins')();
 const config = require('./config');
 const fs = require('fs-extra');
 const dirTree = require('./helpers').dirTree;
-const fetch = require('node-fetch');
 const yaml = require('yamljs');
 const pkg = require('./../package.json');
 
@@ -15,41 +14,42 @@ const cssBundles = config.bundles !== undefined && config.bundles.scss !== undef
 const jsBundles = config.bundles !== undefined && config.bundles.js !== undefined;
 
 const prepare = async (done) => {
-  // Check if user is online
-  const isOnline = await axios
-    .get('https://google.com', { timeout: 3000 })
-    .then(res => true)
-    .catch(err => false);
+  let cdn;
+
+  // Get CDN from jsdeliver.
+  cdn = await axios
+    .get('https://cdn.jsdelivr.net/gh/frontend/toolbox-reader/package.json')
+    .then(res => {
+      const minor = res.data.version.split('.').splice(0, 2).join('.');
+      return `https://cdn.jsdelivr.net/gh/frontend/toolbox-reader@${minor}/build/static`;
+    })
+    .catch((err) => {
+      if (err.response) {
+        log.error(`⚠️  Got "${err.response.status} ${err.response.statusText}" status while fetching toolbox-reader online.`);
+      } else {
+        log.error(`⚠️  Could not fetch toolbox-reader online. Will try to use the offline mode.`);
+      }
+    });
 
   // Define cdn path
   const localCdn = `${homedir()}/.toolbox`;
-  let cdn;
   if (config.reader_path) {
     cdn = config.reader_path;
   } else {
-    if (isOnline) {
-      cdn = await axios
-        .get('https://cdn.jsdelivr.net/gh/frontend/toolbox-reader/package.json')
-        .then(res => {
-          const minor = res.data.version.split('.').splice(0, 2).join('.');
-          return `https://cdn.jsdelivr.net/gh/frontend/toolbox-reader@${minor}/build/static`;
-        })
-        .catch(err => log.error(err));
 
+    if (cdn) {
       // Download Toolbox Reader bundles for future offline usage
       download(`${cdn}/css/main.css`, `${localCdn}/`);
       download(`${cdn}/js/main.js`, `${localCdn}/`);
-    } else {
-      // Retrieve local Toolbox Reader bundles
-      cdn = 'toolbox';
-      fs.pathExists(`${localCdn}/main.css`, (err, exists) => {
-        if (err || !exists) log.error('You don\'t have any local Toolbox Reader bundles to use... Please connecte yourlsef before retrying.')
-        const copyToDir = `${config.project}/${config.dest}toolbox`;
-        fs.ensureDirSync(copyToDir)
-        fs.copy(`${localCdn}/main.css`, `${copyToDir}/main.css`);
-        fs.copy(`${localCdn}/main.js`, `${copyToDir}/main.js`);
-      })
     }
+
+    fs.pathExists(`${localCdn}/main.css`, (err, exists) => {
+      if (err || !exists) log.error('Unable to find a Toolbox Reader bundle locally. Make sure you are online and try again.');
+      const copyToDir = `${config.project}/${config.dest}toolbox`;
+      fs.ensureDirSync(copyToDir);
+      fs.copy(`${localCdn}/main.css`, `${copyToDir}/css/main.css`);
+      fs.copy(`${localCdn}/main.js`, `${copyToDir}/js/main.js`);
+    });
   }
 
   // Get local colors and data
@@ -113,7 +113,7 @@ const prepare = async (done) => {
           window.builder = "${pkg.version}";
           ${ config.theme ? `window.theme = ${JSON.stringify(config.theme)};` : '' }
         </script>
-        <link rel="stylesheet" href="${cdn}${isOnline || config.reader_path ? '/css' : ''}/main.css">
+        <link rel="stylesheet" href="toolbox/css/main.css">
         ${config.vendors.css ? '<link rel="stylesheet" href="css/vendors.min.css">' : ''}
         ${ cssBundles
           ? config.bundles.scss
@@ -142,10 +142,10 @@ const prepare = async (done) => {
         `).appendTo('body');
       }
 
-      $(`  <script src="${cdn}${isOnline || config.reader_path ? '/js' : ''}/main.js"></script>\n`).appendTo('body');
+      $('  <script src="toolbox/js/main.js"></script>\n').appendTo('body');
     }))
     .pipe($.rename('index.html'))
     .pipe(gulp.dest(config.dest, {cwd: config.project}));
-}
+};
 
 module.exports = prepare;
