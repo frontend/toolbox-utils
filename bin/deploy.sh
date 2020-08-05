@@ -4,14 +4,13 @@ jq --version || { echo "⚠️  You must have jq installed on your machine (brew
 
 cd $2
 
-DEST=`jq -er ".ghpages" "$2/toolbox.json"`
+DEST=`cat "$2/toolbox.json" | jq -er ".ghpages"`
 DIRECTORY="$2/${DEST%?}"
 BRANCH="gh-pages"
 CURRENT_BRANCH=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
 
 # Check if the environment is ready for publishing ===========================
-if [[ $(git status -s) ]]
-then
+if [ ! -z "$(git status -s)" ]; then
     echo "⚠️  The working directory is dirty. Please commit any pending changes."
     exit 1;
 fi
