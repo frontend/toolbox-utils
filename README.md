@@ -1,4 +1,7 @@
 <h1 align="center">Welcome to Toolbox Utils 👋</h1>
+
+## ⚠️ Deprecated in favor of [**Storybox**](https://github.com/frontend/storybox) ⚠️
+
 <p>
   <img src="https://img.shields.io/badge/node-%3E%3D8-blue.svg" />
   <a href="http://frontend.github.io/toolbox/">
