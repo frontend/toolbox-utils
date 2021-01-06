@@ -11,7 +11,8 @@
   },
   "repository": "frontend/toolbox-utils",
   "author": {
-    "url": "https://github.com/frontend"
+    "url": "https://github.com/frontend",
+    "name": "Frontend Team"
   },
   "babel": {
     "presets": [
@@ -80,7 +81,6 @@
     "jquery": "^3.4.1",
     "latest-version": "^5.1.0",
     "merge-stream": "^1.0.1",
-    "node-fetch": "^2.5.0",
     "postcss-reporter": "^6.0.1",
     "postcss-scss": "^2.0.0",
     "stylelint": "^10.0.1",
