@@ -81,6 +81,7 @@
     "latest-version": "^5.1.0",
     "merge-stream": "^1.0.1",
     "node-fetch": "^2.5.0",
+    "node-sass": "^6.0.0",
     "postcss": "^8.2.15",
     "postcss-reporter": "^7.0.2",
     "postcss-scss": "^4.0.0",
