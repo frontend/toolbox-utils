@@ -6,6 +6,7 @@ const config = require('./config');
 const {errorAlert} = require('./helpers');
 
 const $ = gulpLoadPlugins();
+const $sass = $.sass(require("node-sass"));
 
 // Get scss bundle config and create bundles and names array
 const hasBundleConfig = config.bundles !== undefined && config.bundles.scss !== undefined;
@@ -42,7 +43,7 @@ const stylesBuild = () => {
   return gulp.src(source, {cwd: config.project})
     .pipe($.plumber({ errorHandler: errorAlert }))
     .pipe($.sourcemaps.init())
-    .pipe($.sass.sync().on('error', $.sass.logError))
+    .pipe($sass.sync().on('error', $sass.logError))
     .pipe($.postcss([
       autoprefixer({ grid: true }),
       require('cssnano')({
